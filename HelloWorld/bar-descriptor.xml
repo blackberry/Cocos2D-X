@@ -48,34 +48,35 @@
     <!--  The category where the application appears. Either core.games or core.media. -->
     <category>core.games</category>
     <asset path="icon.png">icon.png</asset>
-    <asset path="${workspace_loc:/cocos2dx-new/HelloWorld/Resource}">Resource</asset>
+    <asset path="${workspace_loc:/cocos2dx/HelloWorld/Resource}">Resource</asset>
+    <asset path="${workspace_loc:/grskia/Device-Debug/libddskia.so}" type="Qnx/Elf">lib/libddskia.so</asset>
     <configuration id="com.qnx.qcc.configuration.exe.debug.1245906903" name="Device-Debug">
-       <asset path="${workspace_loc:/cocos2dx-new/HelloWorld/Device-Debug/cocos2dxHelloNew}" entry="true" type="Qnx/Elf">cocos2dxHelloNew</asset>
        <asset path="${QNX_TARGET}\..\target-override\armle-v7\usr\lib\libbps.so" type="Qnx/Elf">lib/libbps.so.1</asset>
+       <asset path="${workspace_loc:/cocos2dx/HelloWorld/Device-Debug/cocos2dxHello}" entry="true" type="Qnx/Elf">cocos2dxHello</asset>
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.release.2073304341" name="Device-Release">
-       <asset path="${workspace_loc:/cocos2dx-new/HelloWorld/Device-Release/cocos2dxHelloNew}" entry="true" type="Qnx/Elf">cocos2dxHelloNew</asset>
        <asset path="${QNX_TARGET}\..\target-override\armle-v7\usr\lib\libbps.so" type="Qnx/Elf">lib/libbps.so.1</asset>
+       <asset path="${workspace_loc:/cocos2dx/HelloWorld/Device-Release/cocos2dxHello}" entry="true" type="Qnx/Elf">cocos2dxHello</asset>
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.profile.1645669318" name="Device-Profile">
-       <asset path="${workspace_loc:/cocos2dx-new/HelloWorld/Device-Profile/cocos2dxHelloNew}" entry="true" type="Qnx/Elf">cocos2dxHelloNew</asset>
        <asset path="${QNX_TARGET}\..\target-override\armle-v7\usr\lib\libbps.so" type="Qnx/Elf">lib/libbps.so.1</asset>
+       <asset path="${workspace_loc:/cocos2dx/HelloWorld/Device-Profile/cocos2dxHello}" entry="true" type="Qnx/Elf">cocos2dxHello</asset>
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.profile.coverage.1441062397" name="Device-Coverage">
-       <asset path="${workspace_loc:/cocos2dx-new/HelloWorld/Device-Coverage/cocos2dxHelloNew}" entry="true" type="Qnx/Elf">cocos2dxHelloNew</asset>
        <asset path="${QNX_TARGET}\..\target-override\armle-v7\usr\lib\libbps.so" type="Qnx/Elf">lib/libbps.so.1</asset>
+       <asset path="${workspace_loc:/cocos2dx/HelloWorld/Device-Coverage/cocos2dxHello}" entry="true" type="Qnx/Elf">cocos2dxHello</asset>
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.debug.1876373442" name="Simulator">
-       <asset path="${workspace_loc:/cocos2dx-new/HelloWorld/Simulator/cocos2dxHelloNew}" entry="true" type="Qnx/Elf">cocos2dxHelloNew</asset>
        <asset path="${QNX_TARGET}\..\target-override\x86\usr\lib\libbps.so" type="Qnx/Elf">lib/libbps.so.1</asset>
+       <asset path="${workspace_loc:/cocos2dx/HelloWorld/Simulator/cocos2dxHello}" entry="true" type="Qnx/Elf">cocos2dxHello</asset>
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.profile.1514785110" name="Simulator-Profile">
-       <asset path="${workspace_loc:/cocos2dx-new/HelloWorld/Simulator-Profile/cocos2dxHelloNew}" entry="true" type="Qnx/Elf">cocos2dxHelloNew</asset>
        <asset path="${QNX_TARGET}\..\target-override\x86\usr\lib\libbps.so" type="Qnx/Elf">lib/libbps.so.1</asset>
+       <asset path="${workspace_loc:/cocos2dx/HelloWorld/Simulator-Profile/cocos2dxHello}" entry="true" type="Qnx/Elf">cocos2dxHello</asset>
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.profile.coverage.955806667" name="Simulator-Coverage">
-       <asset path="${workspace_loc:/cocos2dx-new/HelloWorld/Simulator-Coverage/cocos2dxHelloNew}" entry="true" type="Qnx/Elf">cocos2dxHelloNew</asset>
        <asset path="${QNX_TARGET}\..\target-override\x86\usr\lib\libbps.so" type="Qnx/Elf">lib/libbps.so.1</asset>
+       <asset path="${workspace_loc:/cocos2dx/HelloWorld/Simulator-Coverage/cocos2dxHello}" entry="true" type="Qnx/Elf">cocos2dxHello</asset>
     </configuration>
     
     <!--  The icon for the application, which should be 86x86. -->
