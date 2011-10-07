@@ -231,12 +231,12 @@ namespace CocosDenshion
 		}
 		else
 		{
-			rewindBackgroundMusic();
+
+fprintf(stderr, "the play status is %d\n", s_playStatus);
 			if (s_playStatus == PAUSED)
-			{
 				resumeBackgroundMusic();
-				return;
-			}
+			else
+				rewindBackgroundMusic();
 		}
 
 		if (!s_isBackgroundInitialized)
@@ -270,6 +270,10 @@ namespace CocosDenshion
 
 	void SimpleAudioEngine::stopBackgroundMusic(bool bReleaseData)
 	{
+    	// if we were paused then we need to resume first so that we can play
+		if (s_playStatus == PAUSED)
+			resumeBackgroundMusic();
+
 		stopBackground(bReleaseData);
 	}
 
