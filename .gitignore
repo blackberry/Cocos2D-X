@@ -34,8 +34,6 @@ bin/
 obj/
 assets/
 .classpath
-.project
-.cproject
 
 # Ignore files build by airplay
 build_*_xcode/
@@ -50,3 +48,7 @@ build_*_xcode/
 xcschememanagement.plist
 build/
 .DS_Store
+
+# Ignore build directories
+Device-Debug/
+Device-Release/
