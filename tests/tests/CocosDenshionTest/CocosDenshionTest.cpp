@@ -12,7 +12,7 @@
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 	#define MUSIC_FILE		"music.mid"
 #else
-	#define MUSIC_FILE		"background.wav"
+	#define MUSIC_FILE		"background.mp3"
 #endif // CC_PLATFORM_WIN32
 
 using namespace cocos2d;
