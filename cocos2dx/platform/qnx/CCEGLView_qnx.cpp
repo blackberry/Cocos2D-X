@@ -763,7 +763,7 @@ bool CCEGLView::HandleEvents()
 		{
 			m_screenEvent = screen_event_get_event(event);
 
-fprintf(stderr, "screen event\n");
+//fprintf(stderr, "screen event\n");
 #else
 		while (!screen_get_event(m_screenContext, m_screenEvent, 0))
 		{

@@ -22,52 +22,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-/* used for SkRefCnt::unref(), it used to decrease the count */
-static int sk_atomic_dec(int *value)
-{
-	*value = *value - 1;
-	return *value;
-}
-
-
-#define SKIA
-
 #include "CCImage.h"
 
-#ifdef SKIA
 #include "SkTypeface.h"
 #include "SkBitmap.h"
 #include "SkPaint.h"
 #include "SkCanvas.h"
-
-#endif
 
 NS_CC_BEGIN;
 
 class BitmapDC
 {
 public:
-    BitmapDC()
-#ifdef SKIA
-	: m_pBitmap(NULL),
-	  m_pPaint(NULL)
-#endif
+    BitmapDC() : m_pBitmap(NULL),
+	  	  	  	 m_pPaint(NULL)
     {
     }
 
     ~BitmapDC(void)
     {
-#ifdef SKIA
 		CC_SAFE_DELETE(m_pPaint);
 		CC_SAFE_DELETE(m_pBitmap);
-#endif
     }
 
-	bool setFont(const char * pFontName = NULL, int nSize = 0)
+	bool setFont(const char *pFontName = NULL, int nSize = 0)
 	{
 		bool bRet = false;
 
-#ifdef SKIA
 		if (m_pPaint)
 		{
 			delete m_pPaint;
@@ -95,16 +76,13 @@ public:
 
 			bRet = true;
 		} while (0);
-#else
-		fprintf(stderr, "BitmapDC::setFont\n");
-#endif
+
 		return bRet;
 	}
 
 	bool prepareBitmap(int nWidth, int nHeight)
 	{
 		// release bitmap
-#ifdef SKIA
 		if (m_pBitmap)
 		{
 			delete m_pBitmap;
@@ -131,9 +109,7 @@ public:
 			/* start with black/transparent pixels */
 			m_pBitmap->eraseColor(0);
 		}
-#else
-		fprintf(stderr, "BitmapDC::prepareBitmap\n");
-#endif
+
 		return true;
 	}
 
@@ -141,7 +117,6 @@ public:
     {
         bool bRet = false;
 
-#ifdef SKIA
         do 
         {
             CC_BREAK_IF(! pszText);
@@ -159,9 +134,7 @@ public:
 			canvas.drawText(pszText, strlen(pszText), 0.0, -font.fAscent, *m_pPaint);
 			bRet = true;
         } while (0);
-#else
-        fprintf(stderr, "BitmapDC::drawText\n");
-#endif
+
         return bRet;
     }
 
@@ -169,7 +142,6 @@ public:
 	{
 		bool bRet = false;
 
-#ifdef SKIA
 		do 
 		{
 			CC_BREAK_IF(!pszText || !pWidth || !pHeight);
@@ -185,21 +157,19 @@ public:
 				bRet = true;
 			}			
 		} while (0);
-#else
-        fprintf(stderr, "BitmapDC::getTextExtentPoint\n");
-#endif
+
 		return bRet;
 	}
-#ifdef SKIA
+
 	SkBitmap* getBitmap()
 	{
 		return m_pBitmap;
 	}
 
 private:
-    SkPaint *m_pPaint;
+    SkPaint  *m_pPaint;
 	SkBitmap *m_pBitmap;
-#endif
+
 };
 
 static BitmapDC& sharedBitmapDC()
@@ -218,7 +188,6 @@ bool CCImage::initWithString(
 {
     bool bRet = false;
 
-#ifdef SKIA
     do 
     {
         CC_BREAK_IF(! pText);
@@ -258,7 +227,6 @@ bool CCImage::initWithString(
 
 		bRet = true;
     } while (0);
-#endif
 
     return bRet;
 }
