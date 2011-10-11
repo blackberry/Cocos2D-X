@@ -21,10 +21,10 @@ Thumbs.db
 *.ilk
 *.log
 [Bb]in
-[Dd]ebug*/
+Debug*/
 *.sbr
 obj/
-[Rr]elease*/
+Release*/
 _ReSharper*/
 [Tt]est[Rr]esult*
 

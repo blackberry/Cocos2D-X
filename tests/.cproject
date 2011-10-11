@@ -44,8 +44,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/cocos2dx/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/chipmunk/include/chipmunk}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/CocosDenshion/include}&quot;"/>
-									<listOptionValue builtIn="false" value="C:/bbndk/target/qnx6/usr/include/freetype2"/>
-									<listOptionValue builtIn="false" value="C:/bbndk/target/target-override/usr/include"/>
+									<listOptionValue builtIn="false" value="${QNX_TARGET}/usr/include/freetype2"/>
+									<listOptionValue builtIn="false" value="${QNX_TARGET}/../target-override/usr/include"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.1828979432" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
@@ -82,7 +82,7 @@
 									<listOptionValue builtIn="false" value="png"/>
 									<listOptionValue builtIn="false" value="mmrndclient"/>
 									<listOptionValue builtIn="false" value="strm"/>
-									<listOptionValue builtIn="false" value="ddskia"/>
+									<listOptionValue builtIn="false" value="grskia"/>
 									<listOptionValue builtIn="false" value="OpenAL"/>
 									<listOptionValue builtIn="false" value="alut"/>
 									<listOptionValue builtIn="false" value="curl"/>
@@ -152,7 +152,7 @@
 								<option id="com.qnx.qcc.option.linker.libraryPaths.1451428164" name="Library Paths (-L)" superClass="com.qnx.qcc.option.linker.libraryPaths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/Device-Release}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/CocosDenshion/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/cocos2dx/platform/third_party/qnx/libraries}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/cocos2dx/platform/third_party/qnx/libraries/release}&quot;"/>
 									<listOptionValue builtIn="false" value="${QNX_TARGET}/../target-override/armle-v7/lib"/>
 									<listOptionValue builtIn="false" value="${QNX_TARGET}/../target-override/armle-v7/usr/lib"/>
 								</option>
@@ -170,7 +170,7 @@
 									<listOptionValue builtIn="false" value="OpenAL"/>
 									<listOptionValue builtIn="false" value="alut"/>
 									<listOptionValue builtIn="false" value="asound"/>
-									<listOptionValue builtIn="false" value="skia"/>
+									<listOptionValue builtIn="false" value="grskia"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.linker.912741852" superClass="com.qnx.qcc.inputType.linker">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>

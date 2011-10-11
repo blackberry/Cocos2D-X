@@ -46,8 +46,7 @@
 								<option id="com.qnx.qcc.option.linker.security.171959799" name="Enhanced Security (-Wl,-z,relro -Wl,-z,now)" superClass="com.qnx.qcc.option.linker.security" value="true" valueType="boolean"/>
 								<option id="com.qnx.qcc.option.linker.libraryPaths.1997392693" name="Library Paths (-L)" superClass="com.qnx.qcc.option.linker.libraryPaths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/Device-Debug}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/grskia/Device-Debug}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/cocos2dx/platform/third_party/qnx/libraries/lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/cocos2dx/platform/third_party/qnx/libraries/debug}&quot;"/>
 									<listOptionValue builtIn="false" value="${QNX_TARGET}/../target-override/armle-v7/lib"/>
 									<listOptionValue builtIn="false" value="${QNX_TARGET}/../target-override/armle-v7/usr/lib"/>
 								</option>
@@ -59,7 +58,7 @@
 									<listOptionValue builtIn="false" value="jpeg"/>
 									<listOptionValue builtIn="false" value="png"/>
 									<listOptionValue builtIn="false" value="bps"/>
-									<listOptionValue builtIn="false" value="ddskia"/>
+									<listOptionValue builtIn="false" value="grskia"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.linker.1626246298" superClass="com.qnx.qcc.inputType.linker">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -119,7 +118,7 @@
 								<option id="com.qnx.qcc.option.linker.security.511162625" name="Enhanced Security (-Wl,-z,relro -Wl,-z,now)" superClass="com.qnx.qcc.option.linker.security" value="true" valueType="boolean"/>
 								<option id="com.qnx.qcc.option.linker.libraryPaths.1473610485" name="Library Paths (-L)" superClass="com.qnx.qcc.option.linker.libraryPaths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/Device-Release}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/cocos2dx/platform/third_party/qnx/libraries}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/cocos2dx/platform/third_party/qnx/libraries/release}&quot;"/>
 									<listOptionValue builtIn="false" value="${QNX_TARGET}/../target-override/armle-v7/lib"/>
 									<listOptionValue builtIn="false" value="${QNX_TARGET}/../target-override/armle-v7/usr/lib"/>
 								</option>
@@ -131,7 +130,7 @@
 									<listOptionValue builtIn="false" value="bps"/>
 									<listOptionValue builtIn="false" value="jpeg"/>
 									<listOptionValue builtIn="false" value="png"/>
-									<listOptionValue builtIn="false" value="skia"/>
+									<listOptionValue builtIn="false" value="grskia"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.linker.111000429" superClass="com.qnx.qcc.inputType.linker">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>

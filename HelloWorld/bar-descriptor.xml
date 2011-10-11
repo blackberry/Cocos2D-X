@@ -49,13 +49,15 @@
     <category>core.games</category>
     <asset path="icon.png">icon.png</asset>
     <asset path="${workspace_loc:/cocos2dx/HelloWorld/Resource}">Resource</asset>
-    <asset path="${workspace_loc:/grskia/Device-Debug/libddskia.so}" type="Qnx/Elf">lib/libddskia.so</asset>
+    
     <configuration id="com.qnx.qcc.configuration.exe.debug.1245906903" name="Device-Debug">
        <asset path="${QNX_TARGET}\..\target-override\armle-v7\usr\lib\libbps.so" type="Qnx/Elf">lib/libbps.so.1</asset>
+       <asset path="${workspace_loc:/cocos2dx/cocos2dx/platform/third_party/qnx/libraries/debug/libgrskia.so}" type="Qnx/Elf">lib/libgrskia.so.1</asset>
        <asset path="${workspace_loc:/cocos2dx/HelloWorld/Device-Debug/cocos2dxHello}" entry="true" type="Qnx/Elf">cocos2dxHello</asset>
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.release.2073304341" name="Device-Release">
        <asset path="${QNX_TARGET}\..\target-override\armle-v7\usr\lib\libbps.so" type="Qnx/Elf">lib/libbps.so.1</asset>
+       <asset path="${workspace_loc:/cocos2dx/cocos2dx/platform/third_party/qnx/libraries/release/libgrskia.so}" type="Qnx/Elf">lib/libgrskia.so.1</asset>
        <asset path="${workspace_loc:/cocos2dx/HelloWorld/Device-Release/cocos2dxHello}" entry="true" type="Qnx/Elf">cocos2dxHello</asset>
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.profile.1645669318" name="Device-Profile">
