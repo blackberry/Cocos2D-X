@@ -628,7 +628,7 @@ bool CCEGLView::initGL()
 		return false;
     }
 
-    printEGLInfo(config);
+//    printEGLInfo(config);
 
     if (!createNativeWindow(config))
     {
@@ -745,12 +745,10 @@ bool CCEGLView::HandleEvents()
 	int 			domain;
 	char 			buf[4];
 
-//fprintf(stderr, "handle events!\n");
-
 #ifdef BPS_EVENTS
 	for (;;)
 	{
-		rc = bps_get_event(&event, 0);
+		rc = bps_get_event(&event, 1);
 		assert(rc == BPS_SUCCESS);
 
 		// break if no more events
@@ -763,7 +761,6 @@ bool CCEGLView::HandleEvents()
 		{
 			m_screenEvent = screen_event_get_event(event);
 
-//fprintf(stderr, "screen event\n");
 #else
 		while (!screen_get_event(m_screenContext, m_screenEvent, 0))
 		{
@@ -880,7 +877,7 @@ bool CCEGLView::HandleEvents()
 							switch (val)
 							{
 								case 8: // backspace
-	//		CCKeypadDispatcher::sharedDispatcher()->dispatchKeypadMSG(kTypeBackClicked);
+									//		CCKeypadDispatcher::sharedDispatcher()->dispatchKeypadMSG(kTypeBackClicked);
 									CCIMEDispatcher::sharedDispatcher()->dispatchDeleteBackward();
 									break;
 
@@ -900,13 +897,12 @@ bool CCEGLView::HandleEvents()
 #ifdef BPS_EVENTS
 		else if (domain == navigator_get_domain())
 		{
-fprintf(stderr, "navigator event\n");
 			switch (bps_event_get_code(event))
 			{
 				case NAVIGATOR_SWIPE_DOWN:
-					fprintf(stderr, "navigator swipe down\n");
 					CCKeypadDispatcher::sharedDispatcher()->dispatchKeypadMSG(kTypeMenuClicked);
 					break;
+
 				case NAVIGATOR_EXIT:
 					fprintf(stderr, "navigator exit\n");
 

@@ -5,6 +5,7 @@
 #include "CCAccelerometer.h"
 #include <stdio.h>
 #include <time.h>
+#include <unistd.h>
 
 #define  LOGD(...)  fprintf(stderr, __VA_ARGS__)
 
@@ -36,8 +37,6 @@ int CCApplication::run()
 {
 	struct timespec time_struct;
 
-	fprintf(stderr, "CCApplication::Run()\n");
-
 	// Initialize instance and cocos2d.
 	if (!initInstance() || !applicationDidFinishLaunching())
 	{
@@ -54,7 +53,7 @@ int CCApplication::run()
 		clock_gettime(CLOCK_REALTIME, &time_struct);
 		long current_time = time2millis(&time_struct);
 
-		if (current_time - update_time > m_animationInterval)
+		if ((current_time - update_time) > m_animationInterval)
 		{
 			update_time = current_time;
 
@@ -63,8 +62,7 @@ int CCApplication::run()
 		}
 		else
 		{
-			//  we should sleep off the interval if we're too fast
-//			sleep(0);
+			sleep(0);
 		}
 	}
 	
