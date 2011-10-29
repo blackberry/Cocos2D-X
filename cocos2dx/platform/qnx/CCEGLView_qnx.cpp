@@ -32,6 +32,7 @@ THE SOFTWARE.
 #include <bps/event.h>
 #include <bps/screen.h>
 #include <bps/navigator.h>
+#include <bps/orientation.h>
 #include <bps/virtualkeyboard.h>
 
 #include "CCSet.h"
@@ -56,6 +57,15 @@ PFNGLBINDFRAMEBUFFEROESPROC		   CCEGLView::glBindFramebufferOES = 0;
 PFNGLFRAMEBUFFERTEXTURE2DOESPROC   CCEGLView::glFramebufferTexture2DOES = 0;
 PFNGLDELETEFRAMEBUFFERSOESPROC     CCEGLView::glDeleteFramebuffersOES = 0;
 PFNGLCHECKFRAMEBUFFERSTATUSOESPROC CCEGLView::glCheckFramebufferStatusOES = 0;
+
+enum Orientation
+{
+	PORTRAIT,
+	LANDSCAPE,
+	AUTO
+};
+
+static Orientation orientation = LANDSCAPE;
 
 static struct {
 	EGLint surface_type;
@@ -83,6 +93,8 @@ CCEGLView::CCEGLView()
 
     bps_initialize();
     navigator_request_events(0);
+
+    navigator_rotation_lock(true);
 
     the_configAttr.surface_type = EGL_WINDOW_BIT;
     the_configAttr.red_size 	= EGL_DONT_CARE;
@@ -534,6 +546,7 @@ bool CCEGLView::createNativeWindow(const EGLConfig &config)
     int 	usage = SCREEN_USAGE_OPENGL_ES1;
 	int 	transp = SCREEN_TRANSPARENCY_NONE;
 	int 	pos[2] = { 0, 0 };
+	int 	screen_size[2];
 	int 	nbuffers = 2;
 	EGLint 	interval = 1;
 	int 	format;
@@ -592,6 +605,63 @@ bool CCEGLView::createNativeWindow(const EGLConfig &config)
 		return false;
 	}
 
+	err = screen_get_window_property_iv(m_screenWindow, SCREEN_PROPERTY_SIZE, screen_size);
+    if (err)
+    {
+        perror("screen_get_window_property_iv(SCREEN_PROPERTY_SIZE)");
+        return false;
+    }
+
+    switch (CCDirector::sharedDirector()->getDeviceOrientation())
+    {
+    	case CCDeviceOrientationPortrait:
+    	case CCDeviceOrientationPortraitUpsideDown:
+    		orientation = PORTRAIT;
+    		break;
+
+    	case CCDeviceOrientationLandscapeLeft:
+    	case CCDeviceOrientationLandscapeRight:
+    		orientation = LANDSCAPE;
+    		break;
+    }
+
+	// handle the orientation
+//	if (orientation != AUTO)
+	{
+		int angle = atoi(getenv("ORIENTATION"));
+		int buffer_size[2] = { screen_size[0], screen_size[1] };
+		bool flip = false;
+
+		if (((orientation == LANDSCAPE) && (angle == 0  || angle == 180) && (buffer_size[0] < buffer_size[1])) ||
+			((orientation == LANDSCAPE) && (angle == 90 || angle == 270) && (buffer_size[0] > buffer_size[1])) ||
+			((orientation ==  PORTRAIT) && (angle == 90 || angle == 270) && (buffer_size[0] > buffer_size[1])) ||
+			((orientation ==  PORTRAIT) && (angle == 0  || angle == 180) && (buffer_size[0] < buffer_size[1])))
+		{
+
+			buffer_size[0] = screen_size[1];
+			buffer_size[1] = screen_size[0];
+
+			flip = true;
+		}
+
+		if (flip)
+		{
+			err = screen_set_window_property_iv(m_screenWindow, SCREEN_PROPERTY_ROTATION, &angle);
+			if (err)
+			{
+				perror("screen_set_window_property_iv(SCREEN_PROPERTY_ROTATION)");
+				return false;
+			}
+
+			err = screen_set_window_property_iv(m_screenWindow, SCREEN_PROPERTY_BUFFER_SIZE, buffer_size);
+			if (err)
+			{
+				perror("screen_set_window_property_iv(SCREEN_PROPERTY_BUFFER_SIZE)");
+				return false;
+			}
+		}
+	}
+
 	err = screen_create_window_buffers(m_screenWindow, nbuffers);
 	if (err)
 	{
@@ -602,7 +672,7 @@ bool CCEGLView::createNativeWindow(const EGLConfig &config)
 	return true;
 }
 
-#define BPS_EVENTS 1
+#define N_BPS_EVENTS 1
 
 bool CCEGLView::initGL()
 {
@@ -779,8 +849,6 @@ bool CCEGLView::HandleEvents()
 					screen_get_mtouch_event(m_screenEvent, &mtouch_event, 0);
 					touch_id = mtouch_event.contact_id;
 
-	//				fprintf(stderr, "SCREEN MTOUCH RELEASE [%d](%d, %d)\n", touch_id, mtouch_event.x, mtouch_event.y);
-
 					if (m_pDelegate && touch_id < MAX_TOUCHES)
 					{
 						CCTouch* touch = s_pTouches[touch_id];
@@ -813,8 +881,6 @@ bool CCEGLView::HandleEvents()
 					screen_get_mtouch_event(m_screenEvent, &mtouch_event, 0);
 					touch_id = mtouch_event.contact_id;
 
-	//				fprintf(stderr, "SCREEN EVENT MTOUCH TOUCH [%d](%d, %d)\n", touch_id, mtouch_event.x, mtouch_event.y);
-
 					if (m_pDelegate && touch_id < MAX_TOUCHES)
 					{
 						CCTouch* touch = s_pTouches[touch_id];
@@ -835,8 +901,6 @@ bool CCEGLView::HandleEvents()
 				case SCREEN_EVENT_MTOUCH_MOVE:
 					screen_get_mtouch_event(m_screenEvent, &mtouch_event, 0);
 					touch_id = mtouch_event.contact_id;
-
-	//				fprintf(stderr, "SCREEN EVENT MTOUCH MOVE [%d](%d, %d)\n", touch_id, mtouch_event.x, mtouch_event.y);
 
 					if (m_pDelegate && touch_id < MAX_TOUCHES)
 					{

@@ -30,7 +30,6 @@ THE SOFTWARE.
 #include <GLES/glext.h>
 #include <EGL/egl.h>
 #include <screen/screen.h>
-#include <sys/pps.h>       /* Header file for PPS library */
 
 namespace   cocos2d {
 class CCSet;
