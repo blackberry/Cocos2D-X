@@ -38,8 +38,14 @@ THE SOFTWARE.
 
 namespace CocosDenshion
 {
-	static ALuint s_SoundBuffer	= 0;
-	static ALuint s_SoundSource	= 0;
+	struct soundData {
+		ALuint buffer;
+		ALuint source;
+		bool   isLooped;
+	};
+
+	typedef std::map<string, soundData *> EffectsMap;
+	EffectsMap s_effects;
 
 	typedef enum {
 		PLAYING,
@@ -50,9 +56,7 @@ namespace CocosDenshion
 	static int	 s_audioOid;
 
 	static float s_volume 				  = 1.0f;
-
-	static bool	s_loopEffect			  = false;
-	static bool	s_isSoundInitialized      = false;
+	static float s_effectVolume			  = 1.0f;
 	static bool s_isBackgroundInitialized = false;
 	static bool s_hasMMRError			  = false;
 	static playStatus s_playStatus	  	  = STOPPED;
@@ -64,6 +68,36 @@ namespace CocosDenshion
 	static strm_dict_t 		  *s_volumeDictionary = 0;
 
 	static SimpleAudioEngine  *s_engine = 0;
+
+	static void printALError(int err)
+	{
+		switch (err)
+		{
+			case AL_NO_ERROR:
+				fprintf(stderr, "AL_NO_ERROR");
+				break;
+
+			case AL_INVALID_NAME:
+				fprintf(stderr, "AL_INVALID_NAME");
+				break;
+
+			case AL_INVALID_ENUM:
+				fprintf(stderr, "AL_INVALID_ENUM");
+				break;
+
+			case AL_INVALID_VALUE:
+				fprintf(stderr, "AL_INVALID_VALUE");
+				break;
+
+			case AL_INVALID_OPERATION:
+				fprintf(stderr, "AL_INVALID_OPERATION");
+				break;
+
+			case AL_OUT_OF_MEMORY:
+				fprintf(stderr, "AL_OUT_OF_MEMORY");
+				break;
+		};
+	}
 
     static void mmrerror(mmr_context_t *ctxt, const char *msg)
     {
@@ -113,7 +147,7 @@ namespace CocosDenshion
     {
 		char volume_str[128];
 
-		// set it up to loop
+		// set it up the background volume
 		strm_dict_t *dictionary = strm_dict_new();
 
 		sprintf(volume_str, "%d", (int)(volume * 100) );
@@ -146,18 +180,21 @@ namespace CocosDenshion
 
 	void SimpleAudioEngine::end()
 	{
-		alSourceStop(s_SoundSource);
+		// clear all the sounds
+	    EffectsMap::const_iterator end = s_effects.end();
+	    for (EffectsMap::iterator it = s_effects.begin(); it != end; it++)
+	    {
+	        alSourceStop(it->second->source);
+
+			alDeleteBuffers(1, &it->second->buffer);
+			alDeleteSources(1, &it->second->source);
+			delete it->second;
+	    }
+	    s_effects.clear();
 
 		if (s_isBackgroundInitialized)
 		{
 			s_isBackgroundInitialized = false;
-		}
-
-		if (s_isSoundInitialized)
-		{
-			alDeleteBuffers(1, &s_SoundBuffer);
-			alDeleteSources(1, &s_SoundSource);
-			s_isSoundInitialized = false;
 		}
 
 		// and the background too
@@ -231,8 +268,6 @@ namespace CocosDenshion
 		}
 		else
 		{
-
-fprintf(stderr, "the play status is %d\n", s_playStatus);
 			if (s_playStatus == PAUSED)
 				resumeBackgroundMusic();
 			else
@@ -333,66 +368,102 @@ fprintf(stderr, "the play status is %d\n", s_playStatus);
 	//
 	float SimpleAudioEngine::getEffectsVolume()
 	{
-		float volume;
-
-		alGetSourcef(s_SoundSource, AL_GAIN, &volume );
-
-		return volume;
+		return s_effectVolume;
 	}
 
 	void SimpleAudioEngine::setEffectsVolume(float volume)
 	{
-		alSourcef(s_SoundSource, AL_GAIN, volume);
+		if (volume != s_effectVolume)
+		{
+			EffectsMap::const_iterator end = s_effects.end();
+			for (EffectsMap::const_iterator it = s_effects.begin(); it != end; it++)
+			{
+				alSourcef(it->second->source, AL_GAIN, volume);
+			}
+
+			s_effectVolume = volume;
+		}
 	}
 
 	unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop)
 	{
-		if (!s_isSoundInitialized)
+		EffectsMap::iterator iter = s_effects.find(pszFilePath);
+
+		if (iter == s_effects.end())
 		{
 			preloadEffect(pszFilePath);
+
+			// let's try again
+			iter = s_effects.find(pszFilePath);
+			if (iter == s_effects.end())
+			{
+				fprintf(stderr, "could not find play sound %s\n", pszFilePath);
+				return -1;
+			}
 		}
 
-		alSourcei(s_SoundSource, AL_LOOPING, bLoop ? AL_TRUE : AL_FALSE);
-		alSourcePlay(s_SoundSource);
+		iter->second->isLooped = bLoop;
+		alSourcei(iter->second->source, AL_LOOPING, iter->second->isLooped ? AL_TRUE : AL_FALSE);
+		alSourcePlay(iter->second->source);
 
-		return s_SoundSource;
+		return iter->second->source;
 	}
 
 	void SimpleAudioEngine::stopEffect(unsigned int nSoundId)
 	{
-		alSourceStop(s_SoundSource);
+		alSourceStop(nSoundId);
 	}
 
 	void SimpleAudioEngine::preloadEffect(const char* pszFilePath)
 	{
-		if (!s_isSoundInitialized)
+		EffectsMap::iterator iter = s_effects.find(pszFilePath);
+
+		// check if we have this already
+		if (iter == s_effects.end())
 		{
+			ALuint 		buffer;
+			ALuint 		source;
+			soundData  *data = new soundData;
+
 			std::string path = cocos2d::CCFileUtils::getResourcePath();
 			path += pszFilePath;
 
-			s_SoundBuffer = alutCreateBufferFromFile(path.data());
+			buffer = alutCreateBufferFromFile(path.data());
 
-			if (s_SoundBuffer == AL_NONE)
+			if (buffer == AL_NONE)
 			{
 				fprintf(stderr, "Error loading file: '%s'\n", path.data());
-				alDeleteBuffers(1, &s_SoundBuffer);
+				alDeleteBuffers(1, &buffer);
 				return;
 			}
 
-			alGenSources(1, &s_SoundSource);
-			alSourcei(s_SoundSource, AL_BUFFER, s_SoundBuffer);
+			alGenSources(1, &source);
+			alSourcei(source, AL_BUFFER, buffer);
 
-			s_isSoundInitialized = true;
+			data->isLooped = false;
+			data->buffer = buffer;
+			data->source = source;
+
+			s_effects.insert(EffectsMap::value_type(pszFilePath, data));
 		}
 	}
 
 	void SimpleAudioEngine::unloadEffect(const char* pszFilePath)
 	{
-		if (s_isSoundInitialized)
-		{
-			alDeleteBuffers(1, &s_SoundBuffer);
-			alDeleteSources(1, &s_SoundSource);
-			s_isSoundInitialized = false;
-		}
+		EffectsMap::iterator iter = s_effects.find(pszFilePath);
+
+		if (iter != s_effects.end())
+	    {
+	        alSourceStop(iter->second->source);
+			alDeleteSources(1, &iter->second->source);
+			alDeleteBuffers(1, &iter->second->buffer);
+			delete iter->second;
+
+			int err = alGetError();
+			if (err != AL_NO_ERROR)
+				printALError(err);
+
+			s_effects.erase(iter);
+	    }
 	}
 }
