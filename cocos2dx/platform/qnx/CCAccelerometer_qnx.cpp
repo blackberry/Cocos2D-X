@@ -29,11 +29,7 @@ THE SOFTWARE.
 #include <bps/accelerometer.h>
 #include <fcntl.h>
 
-using std::basic_filebuf;
-using std::free;
-
 #define BUFFER_SIZE 			30
-#define TG3_GRAVITY_EARTH       (9.80665f);
 
 namespace cocos2d
 {
@@ -81,9 +77,9 @@ namespace cocos2d
 
 			accelerometer_read_forces(&x, &y, &z);
 
-			m_accelerationValue.x = x * TG3_GRAVITY_EARTH;
-			m_accelerationValue.y = y * TG3_GRAVITY_EARTH;
-			m_accelerationValue.z = z * TG3_GRAVITY_EARTH;
+			m_accelerationValue.x = x;
+			m_accelerationValue.y = y;
+			m_accelerationValue.z = z;
 			m_accelerationValue.timestamp = (double)timeStamp;
 
 			for (std::list<CCAccelerometerDelegate*>::const_iterator iter = m_pAccelDelegates->begin(); iter != m_pAccelDelegates->end(); ++iter)

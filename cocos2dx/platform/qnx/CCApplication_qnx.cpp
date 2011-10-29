@@ -36,6 +36,7 @@ CCApplication::~CCApplication()
 int CCApplication::run()
 {
 	struct timespec time_struct;
+	long current_time, update_time;
 
 	// Initialize instance and cocos2d.
 	if (!initInstance() || !applicationDidFinishLaunching())
@@ -44,14 +45,15 @@ int CCApplication::run()
 	}
 
 	clock_gettime(CLOCK_REALTIME, &time_struct);
-	long update_time = time2millis(&time_struct);
+	update_time = time2millis(&time_struct);
+
 
 	while (1) // or device wants to quit
 	{
 		CCEGLView::sharedOpenGLView().HandleEvents();
 
 		clock_gettime(CLOCK_REALTIME, &time_struct);
-		long current_time = time2millis(&time_struct);
+		current_time = time2millis(&time_struct);
 
 		if ((current_time - update_time) > m_animationInterval)
 		{
@@ -62,7 +64,7 @@ int CCApplication::run()
 		}
 		else
 		{
-			sleep(0);
+//			sleep(0);
 		}
 	}
 	
@@ -77,15 +79,6 @@ void CCApplication::setAnimationInterval(double interval)
 
 CCApplication::Orientation CCApplication::setOrientation(Orientation orientation)
 {
-	switch (orientation)
-	{
-		case   kOrientationPortrait:  			return kOrientationLandscapeRight;
-		case   kOrientationPortraitUpsideDown:  return kOrientationLandscapeLeft;
-		case   kOrientationLandscapeLeft:		return kOrientationPortrait;
-		case   kOrientationLandscapeRight:		return kOrientationPortraitUpsideDown;
-		default:  return orientation;
-	}
-
     return orientation;
 }
 

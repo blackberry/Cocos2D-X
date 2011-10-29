@@ -67,8 +67,15 @@ public:
 			SkTypeface *pTypeFace = SkTypeface::CreateFromName(pFontName, SkTypeface::kNormal);
 			if (! pTypeFace)
 			{
-				CC_SAFE_DELETE(m_pPaint);
-				break;
+				// let's replace with Arial first before failing
+				pTypeFace = SkTypeface::CreateFromName("Arial", SkTypeface::kNormal);
+				CCLOG("could not find font %s replacing with Arial\n", pFontName);
+
+				if (!pTypeFace)
+				{
+					CC_SAFE_DELETE(m_pPaint);
+					break;
+				}
 			}
 			m_pPaint->setTypeface( pTypeFace );
 			/* cannot unref, I don't know why. It may be memory leak, but how to avoid? */
