@@ -132,16 +132,16 @@ int CCFileUtils::ccLoadFileIntoMemory(const char *filename, unsigned char **out)
 
 std::string CCFileUtils::getWriteablePath()
 {
-	// Let's write it in the current working directories data folder
+	// Let's write it in the current working directory's data folder
 	char cwd[FILENAME_MAX];
 
-	getcwd( cwd, sizeof( FILENAME_MAX ) - 1 );
-	cwd[FILENAME_MAX-1] = 0;
+	getcwd(cwd, FILENAME_MAX - 1);
+	cwd[FILENAME_MAX] = '\0';
 
-	std::string dir = cwd;
-	dir += "/data";
+	std::string path = cwd;
+	path += "/data/";
 
-	return dir;
+	return path;
 }
 
 NS_CC_END;
