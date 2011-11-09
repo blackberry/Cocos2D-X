@@ -9,8 +9,10 @@
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/cocos2dx-new"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/cocos2dx"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Cocos2D-X"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/cocos2dx-new/Device-Debug"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/cocos2dx/Device-Debug"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Cocos2D-X/Device-Debug"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="cocos2dx-new"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="cocos2dx"/>
 					</externalSetting>
@@ -21,7 +23,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="a" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" description="" id="com.qnx.qcc.configuration.staticLib.debug.816584801" name="Device-Debug" parent="com.qnx.qcc.configuration.staticLib.debug">
+				<configuration artifactExtension="a" artifactName="cocos2dx" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" description="" id="com.qnx.qcc.configuration.staticLib.debug.816584801" name="Device-Debug" parent="com.qnx.qcc.configuration.staticLib.debug">
 					<folderInfo id="com.qnx.qcc.configuration.staticLib.debug.816584801." name="/" resourcePath="">
 						<toolChain id="com.qnx.qcc.toolChain.staticLib.debug.343115171" name="QNX QCC" superClass="com.qnx.qcc.toolChain">
 							<option id="com.qnx.qcc.option.cpu.1045443646" name="Target CPU:" superClass="com.qnx.qcc.option.cpu" value="com.qnx.qcc.option.gen.cpu.armle-v7" valueType="enumerated"/>
@@ -107,8 +109,10 @@
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/cocos2dx-new"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/cocos2dx"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Cocos2D-X"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/cocos2dx-new/Device-Release"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/cocos2dx/Device-Release"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Cocos2D-X/Device-Release"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="cocos2dx-new"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="cocos2dx"/>
 					</externalSetting>
@@ -119,7 +123,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="a" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" description="" id="com.qnx.qcc.configuration.staticLib.release.1059146354" name="Device-Release" parent="com.qnx.qcc.configuration.staticLib.release">
+				<configuration artifactExtension="a" artifactName="cocos2dx" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" description="" id="com.qnx.qcc.configuration.staticLib.release.1059146354" name="Device-Release" parent="com.qnx.qcc.configuration.staticLib.release">
 					<folderInfo id="com.qnx.qcc.configuration.staticLib.release.1059146354." name="/" resourcePath="">
 						<toolChain id="com.qnx.qcc.toolChain.staticLib.release.2006995367" name="QNX QCC" superClass="com.qnx.qcc.toolChain">
 							<option id="com.qnx.qcc.option.cpu.1746812537" name="Target CPU:" superClass="com.qnx.qcc.option.cpu" value="com.qnx.qcc.option.gen.cpu.armle-v7" valueType="enumerated"/>
@@ -199,8 +203,11 @@
 				<externalSettings>
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/cocos2dx-new"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Cocos2D-X"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/cocos2dx-new/Device-Profile"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Cocos2D-X/Device-Profile"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="cocos2dx-new"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="cocos2dx"/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -209,7 +216,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="a" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=com.qnx.buildType.profile,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" description="Build for Profiling" id="com.qnx.qcc.configuration.staticLib.profile.735492698" name="Device-Profile" parent="com.qnx.qcc.configuration.staticLib.profile">
+				<configuration artifactExtension="a" artifactName="cocos2dx" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=com.qnx.buildType.profile,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" description="Build for Profiling" id="com.qnx.qcc.configuration.staticLib.profile.735492698" name="Device-Profile" parent="com.qnx.qcc.configuration.staticLib.profile">
 					<folderInfo id="com.qnx.qcc.configuration.staticLib.profile.735492698." name="/" resourcePath="">
 						<toolChain id="com.qnx.qcc.toolChain.staticLib.profile.749855152" name="QNX QCC" superClass="com.qnx.qcc.toolChain">
 							<option id="com.qnx.qcc.option.cpu.1736061410" name="Target CPU:" superClass="com.qnx.qcc.option.cpu" value="com.qnx.qcc.option.gen.cpu.armle-v7" valueType="enumerated"/>
@@ -257,8 +264,11 @@
 				<externalSettings>
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/cocos2dx-new"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Cocos2D-X"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/cocos2dx-new/Device-Coverage"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Cocos2D-X/Device-Coverage"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="cocos2dx-new"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="cocos2dx"/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -267,7 +277,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="a" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=com.qnx.buildType.coverage,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" description="Build with Code Coverage" id="com.qnx.qcc.configuration.staticLib.coverage.1302904660" name="Device-Coverage" parent="com.qnx.qcc.configuration.staticLib.coverage">
+				<configuration artifactExtension="a" artifactName="cocos2dx" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=com.qnx.buildType.coverage,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" description="Build with Code Coverage" id="com.qnx.qcc.configuration.staticLib.coverage.1302904660" name="Device-Coverage" parent="com.qnx.qcc.configuration.staticLib.coverage">
 					<folderInfo id="com.qnx.qcc.configuration.staticLib.coverage.1302904660." name="/" resourcePath="">
 						<toolChain id="com.qnx.qcc.toolChain.staticLib.coverage.2129295838" name="QNX QCC" superClass="com.qnx.qcc.toolChain">
 							<option id="com.qnx.qcc.option.cpu.457970601" name="Target CPU:" superClass="com.qnx.qcc.option.cpu" value="com.qnx.qcc.option.gen.cpu.armle-v7" valueType="enumerated"/>
@@ -315,8 +325,13 @@
 				<externalSettings>
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/cocos2dx-new"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Cocos2D-X"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/cocos2dx"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/cocos2dx-new/Simulator"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Cocos2D-X/Simulator"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/cocos2dx/Simulator"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="cocos2dx-new"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="cocos2dx"/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -325,7 +340,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="a" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" description="" id="com.qnx.qcc.configuration.staticLib.debug.284746461" name="Simulator" parent="com.qnx.qcc.configuration.staticLib.debug">
+				<configuration artifactExtension="a" artifactName="cocos2dx" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" description="" id="com.qnx.qcc.configuration.staticLib.debug.284746461" name="Simulator" parent="com.qnx.qcc.configuration.staticLib.debug">
 					<folderInfo id="com.qnx.qcc.configuration.staticLib.debug.284746461." name="/" resourcePath="">
 						<toolChain id="com.qnx.qcc.toolChain.staticLib.debug.1333110452" name="QNX QCC" superClass="com.qnx.qcc.toolChain">
 							<targetPlatform archList="all" binaryParser="com.qnx.tools.ide.qde.core.QDEBynaryParser" id="com.qnx.qcc.targetPlatform.1287491384" osList="all" superClass="com.qnx.qcc.targetPlatform"/>
@@ -335,10 +350,22 @@
 								<option id="com.qnx.qcc.option.compiler.security.1160439346" name="Enhanced Security (-fstack-protector-all)" superClass="com.qnx.qcc.option.compiler.security" value="true" valueType="boolean"/>
 								<option id="com.qnx.qcc.option.compiler.defines.922221373" name="Defines (-D)" superClass="com.qnx.qcc.option.compiler.defines" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_FORTIFY_SOURCE=2"/>
+									<listOptionValue builtIn="false" value="USE_FILE32API"/>
 								</option>
 								<option id="com.qnx.qcc.option.compiler.includePath.1669307980" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/chipmunk/include/chipmunk}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/cocos2dx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/cocos2dx/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/cocos2dx/platform}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/cocos2dx/platform/qnx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/cocos2dx/platform/third_party/qnx/grskia}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/CocosDenshion/include}&quot;"/>
 									<listOptionValue builtIn="false" value="${QNX_TARGET}/usr/include/freetype2"/>
 									<listOptionValue builtIn="false" value="${QNX_TARGET}/../target-override/usr/include"/>
+								</option>
+								<option id="com.qnx.qcc.option.compiler.ccoptions.42764068" superClass="com.qnx.qcc.option.compiler.ccoptions" valueType="stringList">
+									<listOptionValue builtIn="false" value="-std=c99"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.1187144670" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
@@ -359,7 +386,32 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/menu_nodes"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/touch_dispatcher"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/text_input_node"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/sprite_nodes"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/label_nodes"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/tileMap_parallax_nodes"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/support/image_support"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/textures"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/layers_scenes_transitions_nodes"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/effects"/>
+						<entry excluding="CCImage_qnx.cpp|CCFileUtils_qnx.cpp" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/platform/qnx"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/keypad_dispatcher"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/base_nodes"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/script_support"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Box2D/Dynamics"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="chipmunk/src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/support/zip_support"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Box2D/Collision"/>
+						<entry excluding="tileMap_parallax_nodes|menu_nodes|particle_nodes|platform/qnx|textures|effects|label_nodes|keypad_dispatcher|text_input_node|support/zip_support|sprite_nodes|support/image_support|base_nodes|cocoa|platform|actions|script_support|touch_dispatcher|layers_scenes_transitions_nodes|misc_nodes" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Box2D/Common"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/misc_nodes"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/cocoa"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/actions"/>
+						<entry excluding="qnx|airplay/|android/|win32/|wophone/|ios/|blackberry|third_party/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/platform"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/particle_nodes"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="CocosDenshion/qnx"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -370,8 +422,11 @@
 				<externalSettings>
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/cocos2dx-new"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Cocos2D-X"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/cocos2dx-new/Simulator-Profile"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Cocos2D-X/Simulator-Profile"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="cocos2dx-new"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="cocos2dx"/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -380,7 +435,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="a" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=com.qnx.buildType.profile,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" description="Build for Profiling" id="com.qnx.qcc.configuration.staticLib.profile.1408728879" name="Simulator-Profile" parent="com.qnx.qcc.configuration.staticLib.profile">
+				<configuration artifactExtension="a" artifactName="cocos2dx" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=com.qnx.buildType.profile,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" description="Build for Profiling" id="com.qnx.qcc.configuration.staticLib.profile.1408728879" name="Simulator-Profile" parent="com.qnx.qcc.configuration.staticLib.profile">
 					<folderInfo id="com.qnx.qcc.configuration.staticLib.profile.1408728879." name="/" resourcePath="">
 						<toolChain id="com.qnx.qcc.toolChain.staticLib.profile.1850688609" name="QNX QCC" superClass="com.qnx.qcc.toolChain">
 							<targetPlatform archList="all" binaryParser="com.qnx.tools.ide.qde.core.QDEBynaryParser" id="com.qnx.qcc.targetPlatform.684987780" osList="all" superClass="com.qnx.qcc.targetPlatform"/>
@@ -427,8 +482,11 @@
 				<externalSettings>
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/cocos2dx-new"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Cocos2D-X"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/cocos2dx-new/Simulator-Coverage"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Cocos2D-X/Simulator-Coverage"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="cocos2dx-new"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="cocos2dx"/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -437,7 +495,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="a" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=com.qnx.buildType.coverage,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" description="Build with Code Coverage" id="com.qnx.qcc.configuration.staticLib.coverage.2101594946" name="Simulator-Coverage" parent="com.qnx.qcc.configuration.staticLib.coverage">
+				<configuration artifactExtension="a" artifactName="cocos2dx" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=com.qnx.buildType.coverage,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" description="Build with Code Coverage" id="com.qnx.qcc.configuration.staticLib.coverage.2101594946" name="Simulator-Coverage" parent="com.qnx.qcc.configuration.staticLib.coverage">
 					<folderInfo id="com.qnx.qcc.configuration.staticLib.coverage.2101594946." name="/" resourcePath="">
 						<toolChain id="com.qnx.qcc.toolChain.staticLib.coverage.1507655160" name="QNX QCC" superClass="com.qnx.qcc.toolChain">
 							<targetPlatform archList="all" binaryParser="com.qnx.tools.ide.qde.core.QDEBynaryParser" id="com.qnx.qcc.targetPlatform.1326765048" osList="all" superClass="com.qnx.qcc.targetPlatform"/>
@@ -486,6 +544,7 @@
 	<storageModule moduleId="refreshScope" versionNumber="1">
 		<resource resourceType="PROJECT" workspacePath="/cocos2dx-new"/>
 	</storageModule>
+	<storageModule moduleId="com.qnx.tools.ide.qde.core.QNXProjectProperties"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.qnx.tools.ide.qde.managedbuilder.core.qccScannerInfo"/>
 		<scannerConfigBuildInfo instanceId="com.qnx.qcc.configuration.staticLib.coverage.2101594946">
@@ -510,5 +569,4 @@
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.qnx.tools.ide.qde.managedbuilder.core.qccScannerInfo"/>
 		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="com.qnx.tools.ide.qde.core.QNXProjectProperties"/>
 </cproject>
