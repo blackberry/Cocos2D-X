@@ -331,6 +331,13 @@
 									<listOptionValue builtIn="false" value="_FORTIFY_SOURCE=2"/>
 								</option>
 								<option id="com.qnx.qcc.option.compiler.includePath.1465263261" name="Include Directories (-I)" superClass="com.qnx.qcc.option.compiler.includePath" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/cocos2dx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/cocos2dx/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/cocos2dx/platform}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/chipmunk/include/chipmunk}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/CocosDenshion/include}&quot;"/>
 									<listOptionValue builtIn="false" value="${QNX_TARGET}/usr/include/freetype2"/>
 									<listOptionValue builtIn="false" value="${QNX_TARGET}/../target-override/usr/include"/>
 								</option>
@@ -345,8 +352,27 @@
 								<option id="com.qnx.qcc.option.linker.langcpp.396462501" name="C++ (-lang-c++)" superClass="com.qnx.qcc.option.linker.langcpp" value="true" valueType="boolean"/>
 								<option id="com.qnx.qcc.option.linker.security.1285447864" name="Enhanced Security (-Wl,-z,relro -Wl,-z,now)" superClass="com.qnx.qcc.option.linker.security" value="true" valueType="boolean"/>
 								<option id="com.qnx.qcc.option.linker.libraryPaths.397032931" name="Library Paths (-L)" superClass="com.qnx.qcc.option.linker.libraryPaths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/Simulator}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/CocosDenshion/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cocos2dx/cocos2dx/platform/third_party/qnx/libraries/x86}&quot;"/>
 									<listOptionValue builtIn="false" value="${QNX_TARGET}/../target-override/x86/lib"/>
 									<listOptionValue builtIn="false" value="${QNX_TARGET}/../target-override/x86/usr/lib"/>
+								</option>
+								<option id="com.qnx.qcc.option.linker.libraries.1435587816" name="Libraries (-l)" superClass="com.qnx.qcc.option.linker.libraries" valueType="libs">
+									<listOptionValue builtIn="false" value="cocos2dx"/>
+									<listOptionValue builtIn="false" value="EGL"/>
+									<listOptionValue builtIn="false" value="GLESv1_CM"/>
+									<listOptionValue builtIn="false" value="screen"/>
+									<listOptionValue builtIn="false" value="jpeg"/>
+									<listOptionValue builtIn="false" value="png"/>
+									<listOptionValue builtIn="false" value="bps"/>
+									<listOptionValue builtIn="false" value="curl"/>
+									<listOptionValue builtIn="false" value="mmrndclient"/>
+									<listOptionValue builtIn="false" value="strm"/>
+									<listOptionValue builtIn="false" value="OpenAL"/>
+									<listOptionValue builtIn="false" value="alut"/>
+									<listOptionValue builtIn="false" value="asound"/>
+									<listOptionValue builtIn="false" value="grskia"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.linker.1284013659" superClass="com.qnx.qcc.inputType.linker">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -358,7 +384,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="test.qnx|tests|test.airplay/|test.android/|test.ios/|test.win32/|test.wophone/|tests/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="tests"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="test.qnx"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -484,11 +512,11 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="cocos2dxTestsNew.null.1590443617" name="cocos2dxTestsNew"/>
 	</storageModule>
+	<storageModule moduleId="refreshScope" versionNumber="1">
+		<resource resourceType="PROJECT" workspacePath="/cocos2dxTests"/>
+	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.qnx.tools.ide.qde.managedbuilder.core.qccScannerInfo"/>
-		<scannerConfigBuildInfo instanceId="com.qnx.qcc.configuration.exe.profile.coverage.1899710011">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.qnx.tools.ide.qde.managedbuilder.core.qccScannerInfo"/>
-		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="com.qnx.qcc.configuration.exe.release.1221621169">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.qnx.tools.ide.qde.managedbuilder.core.qccScannerInfo"/>
 		</scannerConfigBuildInfo>
@@ -501,13 +529,15 @@
 		<scannerConfigBuildInfo instanceId="com.qnx.qcc.configuration.exe.profile.770712098">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.qnx.tools.ide.qde.managedbuilder.core.qccScannerInfo"/>
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="com.qnx.qcc.configuration.exe.profile.coverage.1317657418">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.qnx.tools.ide.qde.managedbuilder.core.qccScannerInfo"/>
-		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="com.qnx.qcc.configuration.exe.debug.2088008037">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.qnx.tools.ide.qde.managedbuilder.core.qccScannerInfo"/>
 		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="com.qnx.qcc.configuration.exe.profile.coverage.1317657418">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.qnx.tools.ide.qde.managedbuilder.core.qccScannerInfo"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="com.qnx.qcc.configuration.exe.profile.coverage.1899710011">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.qnx.tools.ide.qde.managedbuilder.core.qccScannerInfo"/>
+		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="refreshScope"/>
 	<storageModule moduleId="com.qnx.tools.ide.qde.core.QNXProjectProperties"/>
 </cproject>
