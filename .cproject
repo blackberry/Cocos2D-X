@@ -98,6 +98,7 @@
 						<entry excluding="qnx|airplay/|android/|win32/|wophone/|ios/|blackberry|third_party/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/platform"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/particle_nodes"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="CocosDenshion/qnx"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Box2D/Rope"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -193,6 +194,7 @@
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/particle_nodes"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/layers_scenes_transitions_nodes"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="CocosDenshion/qnx"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Box2D/Rope"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -364,7 +366,7 @@
 									<listOptionValue builtIn="false" value="${QNX_TARGET}/usr/include/freetype2"/>
 									<listOptionValue builtIn="false" value="${QNX_TARGET}/../target-override/usr/include"/>
 								</option>
-								<option id="com.qnx.qcc.option.compiler.ccoptions.42764068" superClass="com.qnx.qcc.option.compiler.ccoptions" valueType="stringList">
+								<option id="com.qnx.qcc.option.compiler.ccoptions.42764068" name="Compiler Options (-Wc,)" superClass="com.qnx.qcc.option.compiler.ccoptions" valueType="stringList">
 									<listOptionValue builtIn="false" value="-std=c99"/>
 								</option>
 								<inputType id="com.qnx.qcc.inputType.compiler.1187144670" superClass="com.qnx.qcc.inputType.compiler"/>
@@ -412,6 +414,7 @@
 						<entry excluding="qnx|airplay/|android/|win32/|wophone/|ios/|blackberry|third_party/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/platform"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cocos2dx/particle_nodes"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="CocosDenshion/qnx"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Box2D/Rope"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

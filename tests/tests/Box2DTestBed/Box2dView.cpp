@@ -226,7 +226,9 @@ bool Box2DView::ccTouchBegan(CCTouch* touch, CCEvent* event)
 	CCPoint nodePosition = convertToNodeSpace( touchLocation );
 //	NSLog(@"pos: %f,%f -> %f,%f", touchLocation.x, touchLocation.y, nodePosition.x, nodePosition.y);
 
-	return m_test->MouseDown(b2Vec2(nodePosition.x,nodePosition.y));	
+	m_test->MouseDown(b2Vec2(nodePosition.x,nodePosition.y));
+
+	return true;
 }
 
 void Box2DView::ccTouchMoved(CCTouch* touch, CCEvent* event)
