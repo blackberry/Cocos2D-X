@@ -34,10 +34,12 @@ THE SOFTWARE.
 namespace cocos2d
 {
 	CCAccelerometer* CCAccelerometer::m_spCCAccelerometer = NULL;
+	int	CCAccelerometer::m_initialOrientationAngle = 0;
 
 	CCAccelerometer::CCAccelerometer()
 	{
 		m_pAccelDelegates = new std::list<CCAccelerometerDelegate*>();
+		m_initialOrientationAngle = atoi(getenv("ORIENTATION"));
 
 		accelerometer_set_update_frequency(FREQ_40_HZ);
 	}
@@ -73,12 +75,33 @@ namespace cocos2d
 	{
 		if ( m_pAccelDelegates != NULL && !m_pAccelDelegates->empty() )
 		{
+			int angle = atoi(getenv("ORIENTATION"));
+
 			double x, y, z;
 
 			accelerometer_read_forces(&x, &y, &z);
 
-			m_accelerationValue.x = x;
-			m_accelerationValue.y = y;
+			if (m_initialOrientationAngle == 270)
+		    {
+		    	m_accelerationValue.x = y;
+		    	m_accelerationValue.y = -x;
+		    }
+			else if (m_initialOrientationAngle == 90)
+			{
+				m_accelerationValue.x = -y;
+				m_accelerationValue.y = x;
+			}
+			else if (m_initialOrientationAngle == 0)
+			{
+				m_accelerationValue.x = x;
+				m_accelerationValue.y = y;
+		    }
+			else if (m_initialOrientationAngle == 180)
+			{
+				m_accelerationValue.x = -x;
+				m_accelerationValue.y = -y;
+			}
+
 			m_accelerationValue.z = z;
 			m_accelerationValue.timestamp = (double)timeStamp;
 
