@@ -52,12 +52,12 @@
     
     <configuration id="com.qnx.qcc.configuration.exe.debug.1245906903" name="Device-Debug">
        <asset path="${QNX_TARGET}\..\target-override\armle-v7\usr\lib\libbps.so" type="Qnx/Elf">lib/libbps.so.1</asset>
-       <asset path="${workspace_loc:/cocos2dx/cocos2dx/platform/third_party/qnx/libraries/libgrskia.so}" type="Qnx/Elf">lib/libgrskia.so.1</asset>
+       <asset path="${workspace_loc:/cocos2dx/cocos2dx/platform/third_party/qnx/libraries/libgrskia.so}" type="Qnx/Elf">lib/libgrskia.so</asset>
        <asset path="${workspace_loc:/cocos2dx/HelloWorld/Device-Debug/cocos2dxHello}" entry="true" type="Qnx/Elf">cocos2dxHello</asset>
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.release.2073304341" name="Device-Release">
        <asset path="${QNX_TARGET}\..\target-override\armle-v7\usr\lib\libbps.so" type="Qnx/Elf">lib/libbps.so.1</asset>
-       <asset path="${workspace_loc:/cocos2dx/cocos2dx/platform/third_party/qnx/libraries/libgrskia.so}" type="Qnx/Elf">lib/libgrskia.so.1</asset>
+       <asset path="${workspace_loc:/cocos2dx/cocos2dx/platform/third_party/qnx/libraries/libgrskia.so}" type="Qnx/Elf">lib/libgrskia.so</asset>
        <asset path="${workspace_loc:/cocos2dx/HelloWorld/Device-Release/cocos2dxHello}" entry="true" type="Qnx/Elf">cocos2dxHello</asset>
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.profile.1645669318" name="Device-Profile">
@@ -70,6 +70,7 @@
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.debug.1876373442" name="Simulator">
        <asset path="${QNX_TARGET}\..\target-override\x86\usr\lib\libbps.so" type="Qnx/Elf">lib/libbps.so.1</asset>
+       <asset path="${workspace_loc:/cocos2dx/cocos2dx/platform/third_party/qnx/libraries/x86/libgrskia.so}" type="Qnx/Elf">lib/libgrskia.so</asset>
        <asset path="${workspace_loc:/cocos2dx/HelloWorld/Simulator/cocos2dxHello}" entry="true" type="Qnx/Elf">cocos2dxHello</asset>
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.profile.1514785110" name="Simulator-Profile">
