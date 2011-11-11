@@ -23,10 +23,10 @@ Box2DTestLayer::Box2DTestLayer()
 	gravity.Set(0.0f, -10.0f);
 	
 	// Do we want to let bodies sleep?
-	bool doSleep = true;
+//	bool doSleep = true;
 
 	// Construct a world object, which will hold and simulate the rigid bodies.
-	world = new b2World(gravity, doSleep);
+	world = new b2World(gravity);
 			
 	world->SetContinuousPhysics(true);
 
@@ -53,23 +53,26 @@ Box2DTestLayer::Box2DTestLayer()
 	b2Body* groundBody = world->CreateBody(&groundBodyDef);
 	
 	// Define the ground box shape.
-	b2PolygonShape groundBox;		
+//	b2PolygonShape groundBox;
+	b2EdgeShape edge;
 	
 	// bottom
-	groundBox.SetAsEdge(b2Vec2(0,0), b2Vec2(screenSize.width/PTM_RATIO,0));
-	groundBody->CreateFixture(&groundBox, 0);
+	edge.Set(b2Vec2(0,0), b2Vec2(screenSize.width/PTM_RATIO,0));
+	groundBody->CreateFixture(&edge, 0);
+//	groundBox.SetAsEdge(b2Vec2(0,0), b2Vec2(screenSize.width/PTM_RATIO,0));
+//	groundBody->CreateFixture(&groundBox, 0);
 	
 	// top
-	groundBox.SetAsEdge(b2Vec2(0,screenSize.height/PTM_RATIO), b2Vec2(screenSize.width/PTM_RATIO,screenSize.height/PTM_RATIO));
-	groundBody->CreateFixture(&groundBox, 0);
+	edge.Set(b2Vec2(0,screenSize.height/PTM_RATIO), b2Vec2(screenSize.width/PTM_RATIO,screenSize.height/PTM_RATIO));
+	groundBody->CreateFixture(&edge, 0);
 	
 	// left
-	groundBox.SetAsEdge(b2Vec2(0,screenSize.height/PTM_RATIO), b2Vec2(0,0));
-	groundBody->CreateFixture(&groundBox, 0);
+	edge.Set(b2Vec2(0,screenSize.height/PTM_RATIO), b2Vec2(0,0));
+	groundBody->CreateFixture(&edge, 0);
 	
 	// right
-	groundBox.SetAsEdge(b2Vec2(screenSize.width/PTM_RATIO,screenSize.height/PTM_RATIO), b2Vec2(screenSize.width/PTM_RATIO,0));
-	groundBody->CreateFixture(&groundBox, 0);
+	edge.Set(b2Vec2(screenSize.width/PTM_RATIO,screenSize.height/PTM_RATIO), b2Vec2(screenSize.width/PTM_RATIO,0));
+	groundBody->CreateFixture(&edge, 0);
 
 	
 	//Set up sprite
