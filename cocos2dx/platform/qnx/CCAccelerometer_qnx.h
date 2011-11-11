@@ -48,6 +48,7 @@ private:
 	static CCAccelerometer			   * m_spCCAccelerometer;
 	std::list<CCAccelerometerDelegate*>* m_pAccelDelegates;
 	CCAcceleration 						 m_accelerationValue;
+	static int							 m_initialOrientationAngle;
 };
 
 }//namespace cocos2d
