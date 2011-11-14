@@ -127,16 +127,8 @@ namespace CocosDenshion
 			if (s_mmrConnection)
 				mmr_disconnect(s_mmrConnection);
 
-			if (s_repeatDictionary)
-				strm_dict_destroy(s_repeatDictionary);
-
-			if (s_volumeDictionary)
-				strm_dict_destroy(s_volumeDictionary);
-
 			s_mmrContext = 0;
 			s_mmrConnection = 0;
-			s_repeatDictionary = 0;
-			s_volumeDictionary = 0;
 			s_hasMMRError = false;
 			s_currentBackgroundStr = "";
 			s_isBackgroundInitialized = false;
@@ -199,6 +191,12 @@ namespace CocosDenshion
 
 		// and the background too
 		stopBackground(true);
+
+		if (s_repeatDictionary)
+			strm_dict_destroy(s_repeatDictionary);
+
+		if (s_volumeDictionary)
+			strm_dict_destroy(s_volumeDictionary);
 	}
 
 	void SimpleAudioEngine::setResource(const char* pszZipFileName)
