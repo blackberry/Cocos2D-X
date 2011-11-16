@@ -31,6 +31,7 @@ THE SOFTWARE.
 #include <AL/alut.h>
 #include <mm/renderer.h>
 #include <sys/stat.h>
+#include <vorbis/vorbisfile.h>
 
 #include "CCFileUtils.h"
 
@@ -412,6 +413,89 @@ namespace CocosDenshion
 		alSourceStop(nSoundId);
 	}
 
+	static bool isOGGFile(const char *pszFilePath)
+	{
+		FILE			*file;
+		OggVorbis_File   ogg_file;
+		int				 result;
+
+		file = fopen(pszFilePath, "rb");
+		result = ov_test(file, &ogg_file, 0, 0);
+		ov_clear(&ogg_file);
+
+		return (result == 0);
+	}
+
+	static ALuint createBufferFromOGG(const char *pszFilePath)
+	{
+		ALuint 			buffer;
+		OggVorbis_File  ogg_file;
+		vorbis_info*    info;
+		ALenum 			format;
+		int 			result;
+		int 			section;
+		unsigned int 	size = 0;
+
+		if (ov_fopen(pszFilePath, &ogg_file) < 0)
+		{
+			ov_clear(&ogg_file);
+			fprintf(stderr, "Could not open OGG file %s\n", pszFilePath);
+			return -1;
+		}
+
+		info = ov_info(&ogg_file, -1);
+
+		if (info->channels == 1)
+			format = AL_FORMAT_MONO16;
+		else
+			format = AL_FORMAT_STEREO16;
+
+		// size = #samples * #channels * 2 (for 16 bit)
+		unsigned int data_size = ov_pcm_total(&ogg_file, -1) * info->channels * 2;
+		char* data = new char[data_size];
+
+		while (size < data_size)
+		{
+			result = ov_read(&ogg_file, data + size, data_size - size, 0, 2, 1, &section);
+			if (result > 0)
+			{
+				size += result;
+			}
+			else if (result < 0)
+			{
+				delete [] data;
+				fprintf(stderr, "OGG file problem %s\n", pszFilePath);
+				return -1;
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		if (size == 0)
+		{
+			delete [] data;
+			fprintf(stderr, "Unable to read OGG data\n");
+			return -1;
+		}
+
+	    // Load audio data into a buffer.
+	    alGenBuffers(1, &buffer);
+	    if (alGetError() != AL_NO_ERROR)
+	    {
+	        fprintf(stderr, "Couldn't generate a buffer for OGG file\n");
+	        return buffer;
+	    }
+
+		alBufferData(buffer, format, data, data_size, info->rate);
+
+		delete [] data;
+		ov_clear(&ogg_file);
+
+		return buffer;
+	}
+
 	void SimpleAudioEngine::preloadEffect(const char* pszFilePath)
 	{
 		EffectsMap::iterator iter = s_effects.find(pszFilePath);
@@ -426,7 +510,14 @@ namespace CocosDenshion
 			std::string path = cocos2d::CCFileUtils::getResourcePath();
 			path += pszFilePath;
 
-			buffer = alutCreateBufferFromFile(path.data());
+			if (isOGGFile(path.data()))
+			{
+				buffer = createBufferFromOGG(path.data());
+			}
+			else
+			{
+				buffer = alutCreateBufferFromFile(path.data());
+			}
 
 			if (buffer == AL_NONE)
 			{
