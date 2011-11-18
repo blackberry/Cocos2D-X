@@ -54,19 +54,26 @@ namespace CocosDenshion
 		PAUSED,
 	} playStatus;
 
-	static int	 s_audioOid;
+	static float s_volume 				   = 1.0f;
+	static float s_effectVolume			   = 1.0f;
+	static bool  s_isBackgroundInitialized = false;
+	static std::string s_currentBackgroundStr;
 
-	static float s_volume 				  = 1.0f;
-	static float s_effectVolume			  = 1.0f;
-	static bool s_isBackgroundInitialized = false;
+#define OPENAL_BACKGROUND
+
+#ifdef OPENAL_BACKGROUND
+	ALuint s_backgroundBuffer;
+	ALuint s_backgroundSource;
+#else
+	static int	s_audioOid;
 	static bool s_hasMMRError			  = false;
 	static playStatus s_playStatus	  	  = STOPPED;
 
-	static std::string 		   s_currentBackgroundStr;
 	static mmr_connection_t   *s_mmrConnection 	  = 0;
 	static mmr_context_t 	  *s_mmrContext 	  = 0;
 	static strm_dict_t 		  *s_repeatDictionary = 0;
 	static strm_dict_t 		  *s_volumeDictionary = 0;
+#endif
 
 	static SimpleAudioEngine  *s_engine = 0;
 
@@ -100,6 +107,7 @@ namespace CocosDenshion
 		};
 	}
 
+#ifndef OPENAL_BACKGROUND
     static void mmrerror(mmr_context_t *ctxt, const char *msg)
     {
     	const mmr_error_info_t  *err = mmr_error_info( ctxt );
@@ -109,16 +117,22 @@ namespace CocosDenshion
     	fprintf(stderr, "%s: error %d \n", msg, errcode);
     	s_hasMMRError = true;
     }
+#endif
 
     static void stopBackground(bool bReleaseData)
     {
+#ifdef OPENAL_BACKGROUND
+    	alSourceStop(s_backgroundSource);
+#else
     	s_playStatus = STOPPED;
 
 		if (s_mmrContext)
 			mmr_stop(s_mmrContext);
+#endif
 
 		if (bReleaseData)
 		{
+#ifndef OPENAL_BACKGROUND
 			if (s_mmrContext)
 			{
 				mmr_input_detach(s_mmrContext);
@@ -131,6 +145,7 @@ namespace CocosDenshion
 			s_mmrContext = 0;
 			s_mmrConnection = 0;
 			s_hasMMRError = false;
+#endif
 			s_currentBackgroundStr = "";
 			s_isBackgroundInitialized = false;
 		}
@@ -138,6 +153,9 @@ namespace CocosDenshion
 
     static void setBackgroundVolume(float volume)
     {
+#ifdef OPENAL_BACKGROUND
+    	alSourcef(s_backgroundSource, AL_GAIN, volume);
+#else
 		char volume_str[128];
 
 		// set it up the background volume
@@ -151,6 +169,7 @@ namespace CocosDenshion
 			mmrerror(s_mmrContext, "output parameters");
 			return;
 		}
+#endif
     }
 
 	SimpleAudioEngine::SimpleAudioEngine()
@@ -193,11 +212,16 @@ namespace CocosDenshion
 		// and the background too
 		stopBackground(true);
 
+#ifdef OPENAL_BACKGROUND
+		alDeleteBuffers(1, &s_backgroundBuffer);
+		alDeleteSources(1, &s_backgroundSource);
+#else
 		if (s_repeatDictionary)
 			strm_dict_destroy(s_repeatDictionary);
 
 		if (s_volumeDictionary)
 			strm_dict_destroy(s_volumeDictionary);
+#endif
 	}
 
 	void SimpleAudioEngine::setResource(const char* pszZipFileName)
@@ -205,214 +229,8 @@ namespace CocosDenshion
 	}
 
 	//
-	// background audio (using mmrenderer)
+	// OGG support
 	//
-    void SimpleAudioEngine::preloadBackgroundMusic(const char* pszFilePath)
-	{
-    	if (!s_isBackgroundInitialized)
-    	{
-    		const char 		*mmrname = NULL;
-    		const char 		*ctxtname = "mmrplayer";
-    		char 			 cwd[PATH_MAX];
-    		mode_t 			 mode = S_IRUSR | S_IXUSR;
-
-    		getcwd(cwd, PATH_MAX);
-    		std::string path = "file://";
-    		path += cwd;
-    		path += "/";
-    		path += cocos2d::CCFileUtils::getResourcePath();
-    		path += pszFilePath;
-
-    		s_mmrConnection = mmr_connect(mmrname);
-    		if (!s_mmrConnection)
-    		{
-    			perror("mmr_connect");
-    			s_hasMMRError = true;
-    			return;
-    		}
-
-    		s_mmrContext = mmr_context_create(s_mmrConnection, ctxtname, 0, mode);
-    		if (!s_mmrContext)
-    		{
-    			perror(ctxtname);
-    			s_hasMMRError = true;
-    			return;
-    		}
-
-    		if ((s_audioOid = mmr_output_attach(s_mmrContext, "audio:default", "audio")) < 0)
-    		{
-    			mmrerror(s_mmrContext, "audio:default");
-    			return;
-    		}
-
-    		setBackgroundVolume(s_volume);
-
-    		if (mmr_input_attach(s_mmrContext, path.data(), "autolist") < 0)
-    		{
-    			fprintf(stderr, "unable to load %s\n", path.data());
-    			mmrerror(s_mmrContext, path.data());
-    			return;
-    		}
-
-    		s_currentBackgroundStr 	  = pszFilePath;
-			s_isBackgroundInitialized = true;
-    	}
-	}
-
-	void SimpleAudioEngine::playBackgroundMusic(const char* pszFilePath, bool bLoop)
-	{
-		if (s_currentBackgroundStr != pszFilePath)
-		{
-			stopBackgroundMusic(true);
-		}
-		else
-		{
-			if (s_playStatus == PAUSED)
-				resumeBackgroundMusic();
-			else
-				rewindBackgroundMusic();
-		}
-
-		if (!s_isBackgroundInitialized)
-			preloadBackgroundMusic(pszFilePath);
-
-		if (bLoop)
-		{
-			// set it up to loop
-			strm_dict_t *dictionary = strm_dict_new();
-			s_repeatDictionary = strm_dict_set(dictionary, "repeat", "all");
-
-    		if (mmr_input_parameters(s_mmrContext, s_repeatDictionary) != 0)
-    		{
-    			mmrerror(s_mmrContext, "input parameters (loop)");
-    			return;
-    		}
-		}
-
-		if (s_hasMMRError || !s_mmrContext)
-			return;
-
-		if (mmr_play(s_mmrContext) < 0)
-		{
-			mmrerror(s_mmrContext, "mmr_play");
-			s_hasMMRError = true;
-		}
-
-		if (!s_hasMMRError)
-			s_playStatus = PLAYING;
-	}
-
-	void SimpleAudioEngine::stopBackgroundMusic(bool bReleaseData)
-	{
-    	// if we were paused then we need to resume first so that we can play
-		if (s_playStatus == PAUSED)
-			resumeBackgroundMusic();
-
-		stopBackground(bReleaseData);
-	}
-
-	void SimpleAudioEngine::pauseBackgroundMusic()
-	{
-		if (s_mmrContext && mmr_speed_set(s_mmrContext, 0) < 0)
-		{
-			mmrerror(s_mmrContext, "pause");
-		}
-		s_playStatus = PAUSED;
-	}
-
-	void SimpleAudioEngine::resumeBackgroundMusic()
-	{
-		if (s_mmrContext && mmr_speed_set(s_mmrContext, 1000) < 0)
-		{
-			mmrerror(s_mmrContext, "resume");
-		}
-		s_playStatus = PLAYING;
-	} 
-
-	void SimpleAudioEngine::rewindBackgroundMusic()
-	{
-		if (s_mmrContext && mmr_seek(s_mmrContext, "1:0") < 0)
-		{
-			mmrerror(s_mmrContext, "rewind");
-		}
-	}
-
-	bool SimpleAudioEngine::willPlayBackgroundMusic()
-	{
-		return true;
-	}
-
-	bool SimpleAudioEngine::isBackgroundMusicPlaying()
-	{
-		return (s_playStatus == PLAYING) && s_isBackgroundInitialized;
-	}
-
-	float SimpleAudioEngine::getBackgroundMusicVolume()
-	{
-		return s_volume;
-	}
-
-	void SimpleAudioEngine::setBackgroundMusicVolume(float volume)
-	{
-		if (s_volume != volume && volume >= -0.0001 && volume <= 1.0001)
-		{
-    		s_volume = volume;
-
-			setBackgroundVolume(volume);
-		}
-	}
-
-	//
-	// Effect audio (using OpenAL)
-	//
-	float SimpleAudioEngine::getEffectsVolume()
-	{
-		return s_effectVolume;
-	}
-
-	void SimpleAudioEngine::setEffectsVolume(float volume)
-	{
-		if (volume != s_effectVolume)
-		{
-			EffectsMap::const_iterator end = s_effects.end();
-			for (EffectsMap::const_iterator it = s_effects.begin(); it != end; it++)
-			{
-				alSourcef(it->second->source, AL_GAIN, volume);
-			}
-
-			s_effectVolume = volume;
-		}
-	}
-
-	unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop)
-	{
-		EffectsMap::iterator iter = s_effects.find(pszFilePath);
-
-		if (iter == s_effects.end())
-		{
-			preloadEffect(pszFilePath);
-
-			// let's try again
-			iter = s_effects.find(pszFilePath);
-			if (iter == s_effects.end())
-			{
-				fprintf(stderr, "could not find play sound %s\n", pszFilePath);
-				return -1;
-			}
-		}
-
-		iter->second->isLooped = bLoop;
-		alSourcei(iter->second->source, AL_LOOPING, iter->second->isLooped ? AL_TRUE : AL_FALSE);
-		alSourcePlay(iter->second->source);
-
-		return iter->second->source;
-	}
-
-	void SimpleAudioEngine::stopEffect(unsigned int nSoundId)
-	{
-		alSourceStop(nSoundId);
-	}
-
 	static bool isOGGFile(const char *pszFilePath)
 	{
 		FILE			*file;
@@ -494,6 +312,274 @@ namespace CocosDenshion
 		ov_clear(&ogg_file);
 
 		return buffer;
+	}
+
+
+	//
+	// background audio
+	//
+    void SimpleAudioEngine::preloadBackgroundMusic(const char* pszFilePath)
+	{
+#ifdef OPENAL_BACKGROUND
+		if (!s_isBackgroundInitialized || s_currentBackgroundStr != pszFilePath)
+		{
+			std::string path = cocos2d::CCFileUtils::getResourcePath();
+			path += pszFilePath;
+
+			if (isOGGFile(path.data()))
+			{
+				s_backgroundBuffer = createBufferFromOGG(path.data());
+			}
+			else
+			{
+				s_backgroundBuffer = alutCreateBufferFromFile(path.data());
+			}
+
+			if (s_backgroundBuffer == AL_NONE)
+			{
+				fprintf(stderr, "Error loading file: '%s'\n", path.data());
+				alDeleteBuffers(1, &s_backgroundBuffer);
+				return;
+			}
+
+			alGenSources(1, &s_backgroundSource);
+			alSourcei(s_backgroundSource, AL_BUFFER, s_backgroundBuffer);
+
+			s_currentBackgroundStr = pszFilePath;
+		}
+
+#else
+	    if (!s_isBackgroundInitialized)
+	    {
+    		const char 		*mmrname = NULL;
+    		const char 		*ctxtname = "mmrplayer";
+    		char 			 cwd[PATH_MAX];
+    		mode_t 			 mode = S_IRUSR | S_IXUSR;
+
+    		getcwd(cwd, PATH_MAX);
+    		std::string path = "file://";
+    		path += cwd;
+    		path += "/";
+    		path += cocos2d::CCFileUtils::getResourcePath();
+    		path += pszFilePath;
+
+    		s_mmrConnection = mmr_connect(mmrname);
+    		if (!s_mmrConnection)
+    		{
+    			perror("mmr_connect");
+    			s_hasMMRError = true;
+    			return;
+    		}
+
+    		s_mmrContext = mmr_context_create(s_mmrConnection, ctxtname, 0, mode);
+    		if (!s_mmrContext)
+    		{
+    			perror(ctxtname);
+    			s_hasMMRError = true;
+    			return;
+    		}
+
+    		if ((s_audioOid = mmr_output_attach(s_mmrContext, "audio:default", "audio")) < 0)
+    		{
+    			mmrerror(s_mmrContext, "audio:default");
+    			return;
+    		}
+
+    		setBackgroundVolume(s_volume);
+
+    		if (mmr_input_attach(s_mmrContext, path.data(), "autolist") < 0)
+    		{
+    			fprintf(stderr, "unable to load %s\n", path.data());
+    			mmrerror(s_mmrContext, path.data());
+    			return;
+    		}
+    	}
+#endif
+		s_currentBackgroundStr 	  = pszFilePath;
+		s_isBackgroundInitialized = true;
+	}
+
+	void SimpleAudioEngine::playBackgroundMusic(const char* pszFilePath, bool bLoop)
+	{
+#ifdef OPENAL_BACKGROUND
+		if (!s_isBackgroundInitialized)
+			preloadBackgroundMusic(pszFilePath);
+
+		alSourcei(s_backgroundSource, AL_LOOPING, bLoop ? AL_TRUE : AL_FALSE);
+		alSourcePlay(s_backgroundSource);
+#else
+		if (s_currentBackgroundStr != pszFilePath)
+		{
+			stopBackgroundMusic(true);
+		}
+		else
+		{
+			if (s_playStatus == PAUSED)
+				resumeBackgroundMusic();
+			else
+				rewindBackgroundMusic();
+		}
+
+		if (!s_isBackgroundInitialized)
+			preloadBackgroundMusic(pszFilePath);
+
+		if (bLoop)
+		{
+			// set it up to loop
+			strm_dict_t *dictionary = strm_dict_new();
+			s_repeatDictionary = strm_dict_set(dictionary, "repeat", "all");
+
+    		if (mmr_input_parameters(s_mmrContext, s_repeatDictionary) != 0)
+    		{
+    			mmrerror(s_mmrContext, "input parameters (loop)");
+    			return;
+    		}
+		}
+
+		if (s_hasMMRError || !s_mmrContext)
+			return;
+
+		if (mmr_play(s_mmrContext) < 0)
+		{
+			mmrerror(s_mmrContext, "mmr_play");
+			s_hasMMRError = true;
+		}
+
+		if (!s_hasMMRError)
+			s_playStatus = PLAYING;
+#endif
+	}
+
+	void SimpleAudioEngine::stopBackgroundMusic(bool bReleaseData)
+	{
+#ifndef OPENAL_BACKGROUND
+    	// if we were paused then we need to resume first so that we can play
+		if (s_playStatus == PAUSED)
+			resumeBackgroundMusic();
+#endif
+
+		stopBackground(bReleaseData);
+	}
+
+	void SimpleAudioEngine::pauseBackgroundMusic()
+	{
+#ifdef OPENAL_BACKGROUND
+		alSourcePause(s_backgroundSource);
+#else
+		if (s_mmrContext && mmr_speed_set(s_mmrContext, 0) < 0)
+		{
+			mmrerror(s_mmrContext, "pause");
+		}
+		s_playStatus = PAUSED;
+#endif
+	}
+
+	void SimpleAudioEngine::resumeBackgroundMusic()
+	{
+#ifdef OPENAL_BACKGROUND
+		alSourcePlay(s_backgroundSource);
+#else
+		if (s_mmrContext && mmr_speed_set(s_mmrContext, 1000) < 0)
+		{
+			mmrerror(s_mmrContext, "resume");
+		}
+		s_playStatus = PLAYING;
+#endif
+	} 
+
+	void SimpleAudioEngine::rewindBackgroundMusic()
+	{
+#ifdef OPENAL_BACKGROUND
+		alSourceRewind(s_backgroundSource);
+#else
+		if (s_mmrContext && mmr_seek(s_mmrContext, "1:0") < 0)
+		{
+			mmrerror(s_mmrContext, "rewind");
+		}
+#endif
+	}
+
+	bool SimpleAudioEngine::willPlayBackgroundMusic()
+	{
+		return true;
+	}
+
+	bool SimpleAudioEngine::isBackgroundMusicPlaying()
+	{
+#ifdef OPENAL_BACKGROUND
+	    ALint play_status;
+	    alGetSourcei(s_backgroundSource, AL_SOURCE_STATE, &play_status);
+
+		return (play_status == AL_PLAYING);
+#else
+		return (s_playStatus == PLAYING) && s_isBackgroundInitialized;
+#endif
+	}
+
+	float SimpleAudioEngine::getBackgroundMusicVolume()
+	{
+		return s_volume;
+	}
+
+	void SimpleAudioEngine::setBackgroundMusicVolume(float volume)
+	{
+		if (s_volume != volume && volume >= -0.0001 && volume <= 1.0001)
+		{
+    		s_volume = volume;
+
+			setBackgroundVolume(volume);
+		}
+	}
+
+	//
+	// Effect audio (using OpenAL)
+	//
+	float SimpleAudioEngine::getEffectsVolume()
+	{
+		return s_effectVolume;
+	}
+
+	void SimpleAudioEngine::setEffectsVolume(float volume)
+	{
+		if (volume != s_effectVolume)
+		{
+			EffectsMap::const_iterator end = s_effects.end();
+			for (EffectsMap::const_iterator it = s_effects.begin(); it != end; it++)
+			{
+				alSourcef(it->second->source, AL_GAIN, volume);
+			}
+
+			s_effectVolume = volume;
+		}
+	}
+
+	unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop)
+	{
+		EffectsMap::iterator iter = s_effects.find(pszFilePath);
+
+		if (iter == s_effects.end())
+		{
+			preloadEffect(pszFilePath);
+
+			// let's try again
+			iter = s_effects.find(pszFilePath);
+			if (iter == s_effects.end())
+			{
+				fprintf(stderr, "could not find play sound %s\n", pszFilePath);
+				return -1;
+			}
+		}
+
+		iter->second->isLooped = bLoop;
+		alSourcei(iter->second->source, AL_LOOPING, iter->second->isLooped ? AL_TRUE : AL_FALSE);
+		alSourcePlay(iter->second->source);
+
+		return iter->second->source;
+	}
+
+	void SimpleAudioEngine::stopEffect(unsigned int nSoundId)
+	{
+		alSourceStop(nSoundId);
 	}
 
 	void SimpleAudioEngine::preloadEffect(const char* pszFilePath)
