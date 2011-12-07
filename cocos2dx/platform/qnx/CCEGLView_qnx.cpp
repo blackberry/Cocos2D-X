@@ -814,6 +814,9 @@ bool CCEGLView::HandleEvents()
 	int				rc;
 	int 			domain;
 	char 			buf[4];
+	int 			buttons;
+	int 			pair[2];
+	static bool 	mouse_pressed = false;
 
 #ifdef BPS_EVENTS
 	for (;;)
@@ -920,6 +923,86 @@ bool CCEGLView::HandleEvents()
 
 					break;
 
+				case SCREEN_EVENT_POINTER:
+					// This is a mouse move event, it is applicable to a device with a usb mouse or simulator
+					screen_get_event_property_iv(m_screenEvent, SCREEN_PROPERTY_BUTTONS, &buttons);
+					screen_get_event_property_iv(m_screenEvent, SCREEN_PROPERTY_SOURCE_POSITION, pair);
+
+					if (buttons == SCREEN_LEFT_MOUSE_BUTTON)
+					{
+						if (mouse_pressed)
+						{
+							// Left mouse button was released
+							if (m_pDelegate && touch_id < MAX_TOUCHES)
+							{
+								CCTouch* touch = s_pTouches[touch_id];
+								if (touch)
+								{
+									CCSet set;
+									touch->SetTouchInfo(0, (float)(pair[0] - m_rcViewPort.size.width) / m_fScreenScaleFactor,
+														   (float)(pair[1] - m_rcViewPort.size.height) / m_fScreenScaleFactor);
+									set.addObject(touch);
+
+									m_pDelegate->touchesMoved(&set, NULL);
+								}
+							}
+						}
+						else
+						{
+							// Left mouse button is pressed
+							mouse_pressed = true;
+							if (m_pDelegate && touch_id < MAX_TOUCHES)
+							{
+								CCTouch* touch = s_pTouches[touch_id];
+								if (!touch)
+									touch = new CCTouch;
+
+								touch->SetTouchInfo(0, (float)(pair[0] - m_rcViewPort.size.width) / m_fScreenScaleFactor,
+													   (float)(pair[1] - m_rcViewPort.size.height) / m_fScreenScaleFactor);
+								s_pTouches[touch_id] = touch;
+
+								CCSet set;
+								set.addObject(touch);
+								m_pDelegate->touchesBegan(&set, NULL);
+							}
+						}
+					}
+					else
+					{
+						if (mouse_pressed)
+						{
+							if (m_pDelegate && touch_id < MAX_TOUCHES)
+							{
+								mouse_pressed = false;
+
+								CCTouch* touch = s_pTouches[touch_id];
+								if (touch)
+								{
+									CCSet set;
+									touch->SetTouchInfo(0, (float)(pair[0] - m_rcViewPort.size.width) / m_fScreenScaleFactor,
+														   (float)(pair[1] - m_rcViewPort.size.height) / m_fScreenScaleFactor);
+									set.addObject(touch);
+									m_pDelegate->touchesEnded(&set, NULL);
+
+									touch->release();
+									for (int i = touch_id; i < MAX_TOUCHES; i++)
+									{
+										if (i != (MAX_TOUCHES - 1))
+										{
+											s_pTouches[i] = s_pTouches[i + 1];
+										}
+										else
+										{
+											s_pTouches[i] = NULL;
+										}
+									}
+								}
+							}
+						}
+					}
+
+					break;
+
 				case SCREEN_EVENT_KEYBOARD:
 					screen_get_event_property_iv(m_screenEvent, SCREEN_PROPERTY_KEY_FLAGS, &val);
 					if (val & KEY_DOWN)
@@ -953,6 +1036,7 @@ bool CCEGLView::HandleEvents()
 					}
 
 					break;
+
 
 				default:
 					break;
