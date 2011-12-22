@@ -37,6 +37,7 @@ THE SOFTWARE.
 
 #include "CCSet.h"
 #include "CCDirector.h"
+#include "CCApplication.h"
 #include "ccMacros.h"
 #include "CCTouch.h"
 #include "CCTouchDispatcher.h"
@@ -158,7 +159,7 @@ void CCEGLView::create(int width, int height)
 	m_sSizeInPoint.height = height;
 
 	// calculate the factor and the rect of viewport	
-	m_fScreenScaleFactor =  MIN((float)m_sSizeInPixel.width / m_sSizeInPoint.width, 
+	m_fScreenScaleFactor =  MIN((float)m_sSizeInPixel.width / m_sSizeInPoint.width,
 		                        (float)m_sSizeInPixel.height / m_sSizeInPoint.height);
 
 	int viewPortW = (int)(m_sSizeInPoint.width * m_fScreenScaleFactor);
@@ -809,35 +810,69 @@ bool CCEGLView::HandleEvents()
 {
 	bps_event_t*    event = NULL;
 	mtouch_event_t  mtouch_event;
-	int				touch_id;
-	int				val;
-	int				rc;
-	int 			domain;
-	char 			buf[4];
-	int 			buttons;
-	int 			pair[2];
-	static bool 	mouse_pressed = false;
+	int				touch_id = 0;
+	int				val = 0;
+	int				rc = 0;
+	int 			domain = 0;
+	char 			buf[4] = {0};
 
-#ifdef BPS_EVENTS
 	for (;;)
 	{
 		rc = bps_get_event(&event, 1);
 		assert(rc == BPS_SUCCESS);
 
+#ifdef BPS_EVENTS
 		// break if no more events
 		if (event == NULL)
 			break;
+#else
+		if (event != NULL)
+		{
+#endif
 
 		domain = bps_event_get_domain(event);
 
-		if (domain == screen_get_domain())
+		if (domain == navigator_get_domain())
+		{
+			switch (bps_event_get_code(event))
+			{
+				case NAVIGATOR_SWIPE_DOWN:
+					CCKeypadDispatcher::sharedDispatcher()->dispatchKeypadMSG(kTypeMenuClicked);
+					break;
+
+				case NAVIGATOR_EXIT:
+					// exit the application
+				//	release();
+					break;
+
+				case NAVIGATOR_WINDOW_INACTIVE:
+					CCApplication::sharedApplication().applicationDidEnterBackground();
+					break;
+
+				case NAVIGATOR_WINDOW_ACTIVE:
+			        CCApplication::sharedApplication().applicationWillEnterForeground();
+					break;
+
+				default:
+					break;
+			}
+		}
+		}
+#ifndef BPS_EVENTS
+		// for now handle screen events separately from BPS events
+		if (screen_get_event(m_screenContext, m_screenEvent, 0) < 0)
+		{
+			// we have an error condition in the screen event
+			break;
+		}
+		else
+		{
+#else
+		else if (domain == screen_get_domain())
 		{
 			m_screenEvent = screen_event_get_event(event);
-
-#else
-		while (!screen_get_event(m_screenContext, m_screenEvent, 0))
-		{
 #endif
+
 			rc = screen_get_event_property_iv(m_screenEvent, SCREEN_PROPERTY_TYPE, &val);
 			if (rc || val == SCREEN_EVENT_NONE)
 				break;
@@ -858,8 +893,8 @@ bool CCEGLView::HandleEvents()
 						if (touch)
 						{
 							CCSet set;
-							touch->SetTouchInfo(0, (float)(mtouch_event.x - m_rcViewPort.size.width) / m_fScreenScaleFactor,
-												   (float)(mtouch_event.y - m_rcViewPort.size.height) / m_fScreenScaleFactor);
+							touch->SetTouchInfo(0, ((float)(mtouch_event.x) - m_rcViewPort.origin.x) / m_fScreenScaleFactor,
+												   ((float)(mtouch_event.y) - m_rcViewPort.origin.y) / m_fScreenScaleFactor);
 							set.addObject(touch);
 							m_pDelegate->touchesEnded(&set, NULL);
 
@@ -890,8 +925,8 @@ bool CCEGLView::HandleEvents()
 						if (!touch)
 							touch = new CCTouch;
 
-						touch->SetTouchInfo(0, (float)(mtouch_event.x - m_rcViewPort.size.width) / m_fScreenScaleFactor,
-											   (float)(mtouch_event.y - m_rcViewPort.size.height) / m_fScreenScaleFactor);
+						touch->SetTouchInfo(0, ((float)(mtouch_event.x) - m_rcViewPort.origin.x) / m_fScreenScaleFactor,
+											   ((float)(mtouch_event.y) - m_rcViewPort.origin.y) / m_fScreenScaleFactor);
 						s_pTouches[touch_id] = touch;
 
 						CCSet set;
@@ -911,12 +946,9 @@ bool CCEGLView::HandleEvents()
 						if (touch)
 						{
 							CCSet set;
-							touch->SetTouchInfo(0, (float)(mtouch_event.x - m_rcViewPort.size.width) / m_fScreenScaleFactor,
-												   (float)(mtouch_event.y - m_rcViewPort.size.height) / m_fScreenScaleFactor);
+							touch->SetTouchInfo(0, ((float)(mtouch_event.x) - m_rcViewPort.origin.x) / m_fScreenScaleFactor,
+												   ((float)(mtouch_event.y) - m_rcViewPort.origin.y) / m_fScreenScaleFactor);
 							set.addObject(touch);
-
-							// we can likely optimize this call and move it outside of the while loop and just call at the end if we
-							// have a bunch of move touches all in a row
 							m_pDelegate->touchesMoved(&set, NULL);
 						}
 					}
@@ -924,76 +956,81 @@ bool CCEGLView::HandleEvents()
 					break;
 
 				case SCREEN_EVENT_POINTER:
-					// This is a mouse move event, it is applicable to a device with a usb mouse or simulator
-					screen_get_event_property_iv(m_screenEvent, SCREEN_PROPERTY_BUTTONS, &buttons);
-					screen_get_event_property_iv(m_screenEvent, SCREEN_PROPERTY_SOURCE_POSITION, pair);
-
-					if (buttons == SCREEN_LEFT_MOUSE_BUTTON)
 					{
-						if (mouse_pressed)
-						{
-							// Left mouse button was released
-							if (m_pDelegate && touch_id < MAX_TOUCHES)
-							{
-								CCTouch* touch = s_pTouches[touch_id];
-								if (touch)
-								{
-									CCSet set;
-									touch->SetTouchInfo(0, (float)(pair[0] - m_rcViewPort.size.width) / m_fScreenScaleFactor,
-														   (float)(pair[1] - m_rcViewPort.size.height) / m_fScreenScaleFactor);
-									set.addObject(touch);
+						int buttons;
+						int pair[2];
+						static bool mouse_pressed = false;
 
-									m_pDelegate->touchesMoved(&set, NULL);
+						// this is a mouse move event, it is applicable to a device with a usb mouse or simulator
+						screen_get_event_property_iv(m_screenEvent, SCREEN_PROPERTY_BUTTONS, &buttons);
+						screen_get_event_property_iv(m_screenEvent, SCREEN_PROPERTY_SOURCE_POSITION, pair);
+
+						if (buttons == SCREEN_LEFT_MOUSE_BUTTON)
+						{
+							if (mouse_pressed)
+							{
+								// Left mouse button was released
+								if (m_pDelegate && touch_id < MAX_TOUCHES)
+								{
+									CCTouch* touch = s_pTouches[touch_id];
+									if (touch)
+									{
+										CCSet set;
+										touch->SetTouchInfo(0, ((float)(pair[0]) - m_rcViewPort.origin.x) / m_fScreenScaleFactor,
+															   ((float)(pair[1]) - m_rcViewPort.origin.y) / m_fScreenScaleFactor);
+										set.addObject(touch);
+										m_pDelegate->touchesMoved(&set, NULL);
+									}
+								}
+							}
+							else
+							{
+								// Left mouse button is pressed
+								mouse_pressed = true;
+								if (m_pDelegate && touch_id < MAX_TOUCHES)
+								{
+									CCTouch* touch = s_pTouches[touch_id];
+									if (!touch)
+										touch = new CCTouch;
+
+									touch->SetTouchInfo(0, ((float)(pair[0]) - m_rcViewPort.origin.x) / m_fScreenScaleFactor,
+														   ((float)(pair[1]) - m_rcViewPort.origin.y) / m_fScreenScaleFactor);
+									s_pTouches[touch_id] = touch;
+
+									CCSet set;
+									set.addObject(touch);
+									m_pDelegate->touchesBegan(&set, NULL);
 								}
 							}
 						}
 						else
 						{
-							// Left mouse button is pressed
-							mouse_pressed = true;
-							if (m_pDelegate && touch_id < MAX_TOUCHES)
+							if (mouse_pressed)
 							{
-								CCTouch* touch = s_pTouches[touch_id];
-								if (!touch)
-									touch = new CCTouch;
-
-								touch->SetTouchInfo(0, (float)(pair[0] - m_rcViewPort.size.width) / m_fScreenScaleFactor,
-													   (float)(pair[1] - m_rcViewPort.size.height) / m_fScreenScaleFactor);
-								s_pTouches[touch_id] = touch;
-
-								CCSet set;
-								set.addObject(touch);
-								m_pDelegate->touchesBegan(&set, NULL);
-							}
-						}
-					}
-					else
-					{
-						if (mouse_pressed)
-						{
-							if (m_pDelegate && touch_id < MAX_TOUCHES)
-							{
-								mouse_pressed = false;
-
-								CCTouch* touch = s_pTouches[touch_id];
-								if (touch)
+								if (m_pDelegate && touch_id < MAX_TOUCHES)
 								{
-									CCSet set;
-									touch->SetTouchInfo(0, (float)(pair[0] - m_rcViewPort.size.width) / m_fScreenScaleFactor,
-														   (float)(pair[1] - m_rcViewPort.size.height) / m_fScreenScaleFactor);
-									set.addObject(touch);
-									m_pDelegate->touchesEnded(&set, NULL);
+									mouse_pressed = false;
 
-									touch->release();
-									for (int i = touch_id; i < MAX_TOUCHES; i++)
+									CCTouch* touch = s_pTouches[touch_id];
+									if (touch)
 									{
-										if (i != (MAX_TOUCHES - 1))
+										CCSet set;
+										touch->SetTouchInfo(0, ((float)(pair[0]) - m_rcViewPort.origin.x) / m_fScreenScaleFactor,
+															   ((float)(pair[1]) - m_rcViewPort.origin.y) / m_fScreenScaleFactor);
+										set.addObject(touch);
+										m_pDelegate->touchesEnded(&set, NULL);
+
+										touch->release();
+										for (int i = touch_id; i < MAX_TOUCHES; i++)
 										{
-											s_pTouches[i] = s_pTouches[i + 1];
-										}
-										else
-										{
-											s_pTouches[i] = NULL;
+											if (i != (MAX_TOUCHES - 1))
+											{
+												s_pTouches[i] = s_pTouches[i + 1];
+											}
+											else
+											{
+												s_pTouches[i] = NULL;
+											}
 										}
 									}
 								}
@@ -1037,30 +1074,11 @@ bool CCEGLView::HandleEvents()
 
 					break;
 
-
 				default:
 					break;
 			}
 		}
-#ifdef BPS_EVENTS
-		else if (domain == navigator_get_domain())
-		{
-			switch (bps_event_get_code(event))
-			{
-				case NAVIGATOR_SWIPE_DOWN:
-					CCKeypadDispatcher::sharedDispatcher()->dispatchKeypadMSG(kTypeMenuClicked);
-					break;
-
-				case NAVIGATOR_EXIT:
-					fprintf(stderr, "navigator exit\n");
-
-					// exit the application
-					release();
-					break;
-			}
-		}
 	}
-#endif
 
 	return true;
 }
