@@ -1,16 +1,14 @@
 # Cocos2D-X
 
-The _**Cocos2D-X**_ repository holds the sources for Cocos2D-X, an open-source, C++ based, mobile 2D game engine, ported to run with the Native SDK for BlackBerry © Tablet OS.
+Cocos2D-X added BlackBerry PlayBook support back in [Mid-January 2012](http://openbbnews.wordpress.com/2012/01/20/cocos2d-x-upstream/)
+in cocos2d-1.0.1-x [0.11.0](http://www.cocos2d-x.org/news/44).
+Since then BlackBerry PlayBook has been fully supported, with bug fixes and improvements added in each release - check out the details of
+[0.12.0](http://www.cocos2d-x.org/news/48) and
+[0.13.0 beta](http://www.cocos2d-x.org/news/51).
 
+Since this repository is no longer useful and is causing some confusions, we are removing the sources.
 
-**Repository Committers** 
-
-* [Sean Paul Taylor](https://github.com/seanpaultaylor)
-
-
-## Bug Reporting and Feature Requests
-
-If you find a bug in a Sample, or have an enhancement request, simply file an [Issue](https://github.com/blackberry/Cocos2D-X/issues) and send a message (via github messages) to the Committers to the project to let them know that you have filed an [Issue](https://github.com/blackberry/Cocos2D-X/issues).
+If you are interested in using Cocos2D-X on the PlayBook, go download it directly from [cocos2d-x.org](http://www.cocos2d-x.org/)
 
 ## Disclaimer
 
