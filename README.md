@@ -1,14 +1,15 @@
 # Cocos2D-X
 
-Cocos2D-X added BlackBerry PlayBook support back in [Mid-January 2012](http://openbbnews.wordpress.com/2012/01/20/cocos2d-x-upstream/)
-in cocos2d-1.0.1-x [0.11.0](http://www.cocos2d-x.org/news/44).
-Since then BlackBerry PlayBook has been fully supported, with bug fixes and improvements added in each release - check out the details of
+Cocos2D-X started supporting BlackBerry PlayBook in
+[Mid-January 2012](http://openbbnews.wordpress.com/2012/01/20/cocos2d-x-upstream/)
+with the [0.11.0 release](http://www.cocos2d-x.org/news/44).
+Releases after that fully support the platform, as shown by the _changelogs_ in
 [0.12.0](http://www.cocos2d-x.org/news/48) and
 [0.13.0 beta](http://www.cocos2d-x.org/news/51).
 
 Since this repository is no longer useful and is causing some confusions, we are removing the sources.
 
-If you are interested in using Cocos2D-X on the PlayBook, go download it directly from [cocos2d-x.org](http://www.cocos2d-x.org/)
+If you are interested in using Cocos2D-X on the PlayBook, download it directly from [cocos2d-x.org](http://www.cocos2d-x.org/)
 
 ## Disclaimer
 
