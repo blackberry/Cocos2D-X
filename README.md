@@ -7,8 +7,6 @@ Releases after that fully support the platform, as shown by the _changelogs_ in
 [0.12.0](http://www.cocos2d-x.org/news/48) and
 [0.13.0 beta](http://www.cocos2d-x.org/news/51).
 
-Since this repository is no longer useful and is causing some confusions, we are removing the sources.
-
 If you are interested in using Cocos2D-X on the PlayBook, download it directly from [cocos2d-x.org](http://www.cocos2d-x.org/)
 
 ## Disclaimer
